@@ -9,28 +9,13 @@ endif
 default_target: main
 .PHONY : default_target
 
-main: main.o InitShader.o Buildings.o Camera.o Car.o City.o Traffic_Light.o
+main: main.o InitShader.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
-main.o: src/project/main.cc
+main.o: main.cc
 	$(CC) $(CFLAGS) -c $^
 
-InitShader.o: src/InitShader.cc
-	$(CC) $(CFLAGS) -c $^
-
-Buildings.o: src/Buildings.cc
-	$(CC) $(CFLAGS) -c $^
-
-Camera.o: src/Camera.cc
-	$(CC) $(CFLAGS) -c $^
-
-Car.o: src/Car.cc
-	$(CC) $(CFLAGS) -c $^
-
-City.o: src/City.cc
-	$(CC) $(CFLAGS) -c $^
-
-Traffic_Light.o: src/Traffic_Light.cc
+InitShader.o: common/InitShader.cc
 	$(CC) $(CFLAGS) -c $^
 
 clean:
