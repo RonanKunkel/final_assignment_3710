@@ -1,4 +1,5 @@
-#include "Plane.h"
+#include "Objects.h"
+
 
 Plane::Plane(GLuint vertexLoc, GLuint faceLoc,
 	     GLuint modelLoc, vec4 pos,

@@ -9,7 +9,7 @@ endif
 default_target: main
 .PHONY : default_target
 
-main: main.o InitShader.o Plane.o
+main: main.o InitShader.o Objects.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
 main.o: main.cc
@@ -18,7 +18,7 @@ main.o: main.cc
 InitShader.o: common/InitShader.cc
 	$(CC) $(CFLAGS) -c $^
 
-Plane.o: common/Plane.cc
+Objects.o: common/Objects.cc
 	$(CC) $(CFLAGS) -c $^
 
 clean:
