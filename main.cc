@@ -34,7 +34,7 @@ const int face[1][4] = {
 void init()
 {
   // Load shaders and use the resulting shader program
-  GLuint program = InitShader("vshader.glsl", "fshader.glsl");
+  GLuint program = InitShader("shaders/vshader.glsl", "shaders/fshader.glsl");
   glUseProgram(program);
   faceColourLoc = glGetUniformLocation(program, "uFaceColour");
   modelViewLoc = glGetUniformLocation(program, "uModelView");

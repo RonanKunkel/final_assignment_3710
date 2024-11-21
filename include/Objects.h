@@ -1,3 +1,6 @@
+/*   
+*/
+
 #include <Angel.h>
 
 #ifndef OBJECTS_H
@@ -31,24 +34,15 @@ class Plane : public Object {
   GLuint vao[1], buffer[1];
 };
 
-class building1 : public Object {
-   public:
+class building1 : public Object { // Maksym
+ public:
 
-   private:
+ private:
    GLuint vao[1], buffer[1];
 
 
 };
-class building2 : public Object {
-   public:
-
-   private:
-   GLuint vao[1], buffer[1];
-
-
-
-};
-class building3 : public Object {
+class building2 : public Object { // Desmond
    public:
 
    private:
@@ -56,9 +50,8 @@ class building3 : public Object {
 
 
 
-
 };
-class building4 : public Object {
+class building3 : public Object { // Albert
    public:
 
    private:
@@ -68,7 +61,7 @@ class building4 : public Object {
 
 
 };
-class building5 : public Object {
+class building4 : public Object { // Ronan
    public:
 
    private:
@@ -76,6 +69,23 @@ class building5 : public Object {
 
 
 
+
+};
+class building5 : public Object { // Free-For-All
+   public:
+
+   private:
+   GLuint vao[1], buffer[1];
+
+
+
+};
+
+class trafficLight : public Object {
+   public:
+
+   private:
+   GLuint vao[1], buffer[1];
 };
 
 #endif
