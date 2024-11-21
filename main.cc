@@ -1,10 +1,11 @@
 #include <Angel.h>
-
+#include "Plane.h"
 #include <iostream>
+
 using namespace std;
 
 //----------------------------------------------------------------------------
-
+Plane  *plane; 
 GLfloat theta_x = 0.0, theta_y = 0.0, theta_z = 0.0;
 
 vec4 pos(0.0, 0.0, 0.0, 0.0);
@@ -41,6 +42,9 @@ void init()
 
   // Initialize the vertex position attribute from the vertex shader
   GLuint loc = glGetAttribLocation( program, "vPosition" );
+
+  // Create the plane
+  plane = new Plane(loc, faceColourLoc, modelViewLoc, vec4(0,0,0,0));
 
   // Create a vertex array object for each face
   glGenVertexArrays(1, vao);
@@ -95,7 +99,7 @@ mat4 get_projection(mat4 modelview)
   } else {
     nearPlane = z1 - 0.5;
     farPlane = z2 + 0.5;
-    return Ortho(-1.0, 1.0, -1.0, 1.0, nearPlane, farPlane);
+    return Ortho(-8.0, 8.0, -8.0, 8.0, nearPlane, farPlane);
   }
 }
 
@@ -106,11 +110,11 @@ void display( void )
   mat4 rotate = RotateX(theta_x) * RotateY(theta_y) * RotateZ(theta_z);
   mat4 model = Translate(pos) * rotate * Scale(scale);
 
-  GLfloat eye_x = camera_radius * cos(camera_theta);
-  GLfloat eye_y = camera_radius * sin(camera_theta);
-  vec4 eye(eye_x, eye_y, 0, 1);
-  vec4 at(0,-1,0,1);
-  vec4 up(0,0,-1,0);
+  // GLfloat eye_x = camera_radius * cos(camera_theta);
+  // GLfloat eye_y = camera_radius * sin(camera_theta);
+  vec4 eye(0, 0.8, -1, 1);
+  vec4 at(0,0,0,1);
+  vec4 up(0,1,0,0);
   mat4 view = LookAt(eye, at, up);
   mat4 modelview = view * model;
   glUniformMatrix4fv(modelViewLoc, 1, GL_TRUE, modelview);
@@ -119,11 +123,13 @@ void display( void )
   mat4 proj = get_projection(modelview);
   glUniformMatrix4fv(projLoc, 1, GL_TRUE, proj);
   
-  for (int i = 0; i < 1; i++) {
-    glUniform4fv(faceColourLoc, 1, colour[i]);
-    glBindVertexArray(vao[i]);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);    // draw the square
-  }
+  // for (int i = 0; i < 1; i++) {
+  //   glUniform4fv(faceColourLoc, 1, colour[i]);
+  //   glBindVertexArray(vao[i]);
+  //   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);    // draw the square
+  // }
+
+  plane->draw();
   glutSwapBuffers();
 }
 
@@ -220,7 +226,7 @@ int main( int argc, char **argv )
 {
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-  glutInitWindowSize(512, 512);
+  glutInitWindowSize(1024, 1024);
 
   // If you are using freeglut, the next two lines will check if 
   // the code is truly 3.2. Otherwise, comment them out

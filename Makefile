@@ -9,13 +9,16 @@ endif
 default_target: main
 .PHONY : default_target
 
-main: main.o InitShader.o
+main: main.o InitShader.o Plane.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
 main.o: main.cc
 	$(CC) $(CFLAGS) -c $^
 
 InitShader.o: common/InitShader.cc
+	$(CC) $(CFLAGS) -c $^
+
+Plane.o: common/Plane.cc
 	$(CC) $(CFLAGS) -c $^
 
 clean:
