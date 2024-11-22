@@ -13,25 +13,9 @@ using namespace std;
 //----------------------------------------------------------------------------
 Plane  *plane; 
 Camera *camera;
-GLfloat theta_x = 0.0, theta_y = 0.0, theta_z = 0.0;
 
 bool use_perspective = false;
 GLfloat camera_theta = M_PI/2, camera_radius = 1.0;
-
-// const vec4 point[4] = {
-//   vec4(7.25, 0, 7.25, 1), 
-//   vec4(7.25, 0, -7.25, 1),
-//   vec4(-7.25, 0, -7.25, 1),
-//   vec4(-7.25, 0, 7.25, 1)
-// };
-
-// const vec4 colour[2] = {
-//   vec4(0,1,0,1), // Green
-// };
-
-// const int face[1][4] = {
-//   {0,1,2,3}
-// };
 
 void init()
 {
@@ -52,10 +36,10 @@ void init()
   // Create the plane
   plane = new Plane(loc, faceColourLoc, modelLoc, vec4(0,0,0,0));
 
-  vec4 at(1.5,0,1.5,1);
-  vec4 up(0,0,1,0);
-  vec4 eye(1.5, -10, 6, 1);
-  camera = new Camera(viewLoc, projLoc, eye, at, up, -8, 8, -8, 8, -1, 100);
+  vec4 eye(0, 15, 5, 1);    // Both up and slightly back
+  vec4 at(0, 0, 0, 1);      // Looking at center
+  vec4 up(0, 1, 0, 0);      // Y axis as up direction
+  camera = new Camera(viewLoc, projLoc, eye, at, up, -10, 10, -10, 10, -1, 100);
   
   glClearColor( 0.0, 0.0, 0.0, 1.0 ); // black background
 
@@ -96,12 +80,6 @@ void display( void )
 
   camera->sendToShader();
   plane->draw();
-  
-  // for (int i = 0; i < 1; i++) {
-  //   glUniform4fv(faceColourLoc, 1, colour[i]);
-  //   glBindVertexArray(vao[i]);
-  //   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);    // draw the square
-  // }
 
   glutSwapBuffers();
 }
@@ -132,10 +110,10 @@ void arrow(int key, int x, int y)
     camera->moveEye(0.2, 0, 0);
     break;
   case GLUT_KEY_UP:
-    camera->moveEye(0, 0, -0.2);
+    camera->moveEye(0, -0.2, -0.2);
     break;
   case GLUT_KEY_DOWN:
-    camera->moveEye(0, 0, 0.2);
+    camera->moveEye(0, 0.2, 0.2);
     break;
   // case GLUT_KEY_PAGE_UP:
   //   scale *= 1.05;
