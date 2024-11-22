@@ -1,10 +1,8 @@
 CC=g++
 CFLAGS=-Iinclude -std=c++11 -g
-ifeq ($(OS),Windows_NT)
-	LIBS=-lfreeglut -lglew32 -lopengl32 -lglu32
-else
-	LIBS=-lglut -lGLEW -lGL -lGLU
-endif
+LIBS=-lfreeglut -lglew32 -lopengl32 -lglu32 # Windows
+# LIBS=-lglut -lGLEW -lGL -lGLU # Linux
+
 # Default target executed when no arguments are given to make.
 default_target: main
 .PHONY : default_target
@@ -22,8 +20,6 @@ Objects.o: common/Objects.cc
 	$(CC) $(CFLAGS) -c $^
 
 clean:
-ifeq ($(OS),Windows_NT)
-	del /f /q main.exe *.o
-else
-	rm -f main *~ *.o
-endif
+#del /f /q main.exe *.o # Windows
+	rm -f main *~ *.o Linux (or Mysus64)
+
