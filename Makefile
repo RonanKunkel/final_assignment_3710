@@ -36,5 +36,5 @@ Buildings.o: common/Buildings.cc
 
 clean:
 #del /f /q main.exe *.o # Windows
-	rm -f main *~ *.o Linux (or Mysus64)
+	rm -f main *~ *.o
 

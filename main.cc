@@ -12,69 +12,50 @@ using namespace std;
 
 //----------------------------------------------------------------------------
 Plane  *plane; 
+Camera *camera;
 GLfloat theta_x = 0.0, theta_y = 0.0, theta_z = 0.0;
-
-vec4 pos(0.0, 0.0, 0.0, 0.0);
-vec3 scale(1.0, 1.0, 1.0);
-GLint faceColourLoc, modelViewLoc, projLoc;
-GLuint vao[2], buffer[2];
 
 bool use_perspective = false;
 GLfloat camera_theta = M_PI/2, camera_radius = 1.0;
 
-const vec4 point[4] = {
-  vec4(7.25, 0, 7.25, 1), 
-  vec4(7.25, 0, -7.25, 1),
-  vec4(-7.25, 0, -7.25, 1),
-  vec4(-7.25, 0, 7.25, 1)
-};
+// const vec4 point[4] = {
+//   vec4(7.25, 0, 7.25, 1), 
+//   vec4(7.25, 0, -7.25, 1),
+//   vec4(-7.25, 0, -7.25, 1),
+//   vec4(-7.25, 0, 7.25, 1)
+// };
 
-const vec4 colour[2] = {
-  vec4(0,1,0,1), // Green
-};
+// const vec4 colour[2] = {
+//   vec4(0,1,0,1), // Green
+// };
 
-const int face[1][4] = {
-  {0,1,2,3}
-};
+// const int face[1][4] = {
+//   {0,1,2,3}
+// };
 
 void init()
 {
+
+  GLint faceColourLoc, modelLoc, viewLoc, projLoc;
+
   // Load shaders and use the resulting shader program
   GLuint program = InitShader("shaders/vshader.glsl", "shaders/fshader.glsl");
   glUseProgram(program);
   faceColourLoc = glGetUniformLocation(program, "uFaceColour");
-  modelViewLoc = glGetUniformLocation(program, "uModelView");
+  modelLoc = glGetUniformLocation(program, "uModel");
+  viewLoc = glGetUniformLocation(program, "uView");
   projLoc = glGetUniformLocation(program, "uProjection");
 
   // Initialize the vertex position attribute from the vertex shader
   GLuint loc = glGetAttribLocation( program, "vPosition" );
 
   // Create the plane
-  plane = new Plane(loc, faceColourLoc, modelViewLoc, vec4(0,0,0,0));
+  plane = new Plane(loc, faceColourLoc, modelLoc, vec4(0,0,0,0));
 
-  // Create a vertex array object for each face
-  glGenVertexArrays(1, vao);
-  glGenBuffers(1, buffer);
-
-  for (int i = 0; i < 1; i++) {
-    glBindVertexArray(vao[i]);
-  
-    // initialize a buffer object
-    glBindBuffer(GL_ARRAY_BUFFER, buffer[i]);
-
-    vec4 A[4];
-    int size = 0;
-    for (int j = 0; j < 4; j++) {
-      if (face[i][j] >= 0) {
-	A[size++] = point[face[i][j]];
-      }
-    }
-    glBufferData(GL_ARRAY_BUFFER, size * sizeof(vec4), A, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray( loc );
-    glVertexAttribPointer( loc, 3, GL_FLOAT, GL_FALSE, 0,
-			   BUFFER_OFFSET(0) );
-  }
+  vec4 at(1.5,0,1.5,1);
+  vec4 up(0,0,1,0);
+  vec4 eye(1.5, -10, 6, 1);
+  camera = new Camera(viewLoc, projLoc, eye, at, up, -8, 8, -8, 8, -1, 100);
   
   glClearColor( 0.0, 0.0, 0.0, 1.0 ); // black background
 
@@ -86,48 +67,35 @@ void init()
 
 //----------------------------------------------------------------------------
 
-mat4 get_projection(mat4 modelview)
-{
-  GLfloat z1 = 1e10, z2 = -1e10;
+// mat4 get_projection(mat4 modelview)
+// {
+//   GLfloat z1 = 1e10, z2 = -1e10;
   
-  for (int i = 0; i < 4; i++) {
-    auto p = modelview * point[i];
-    z1 = min(z1, -p.z);
-    z2 = max(z2, -p.z);
-  }
+//   for (int i = 0; i < 4; i++) {
+//     auto p = modelview * point[i];
+//     z1 = min(z1, -p.z);
+//     z2 = max(z2, -p.z);
+//   }
 
-  GLfloat nearPlane, farPlane;
+//   GLfloat nearPlane, farPlane;
 
-  if (use_perspective) {
-    nearPlane = z1 - 0.01;
-    farPlane = z2 + 0.01;
-    return Perspective(120, 1.0, nearPlane, farPlane);
-  } else {
-    nearPlane = z1 - 0.5;
-    farPlane = z2 + 0.5;
-    return Ortho(-8.0, 8.0, -8.0, 8.0, nearPlane, farPlane);
-  }
-}
+//   if (use_perspective) {
+//     nearPlane = z1 - 0.01;
+//     farPlane = z2 + 0.01;
+//     return Perspective(120, 1.0, nearPlane, farPlane);
+//   } else {
+//     nearPlane = z1 - 0.5;
+//     farPlane = z2 + 0.5;
+//     return Ortho(-8.0, 8.0, -8.0, 8.0, nearPlane, farPlane);
+//   }
+// }
 
 void display( void )
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-  mat4 rotate = RotateX(theta_x) * RotateY(theta_y) * RotateZ(theta_z);
-  mat4 model = Translate(pos) * rotate * Scale(scale);
-
-  // GLfloat eye_x = camera_radius * cos(camera_theta);
-  // GLfloat eye_y = camera_radius * sin(camera_theta);
-  vec4 eye(0, 0.8, -1, 1);
-  vec4 at(0,0,0,1);
-  vec4 up(0,1,0,0);
-  mat4 view = LookAt(eye, at, up);
-  mat4 modelview = view * model;
-  glUniformMatrix4fv(modelViewLoc, 1, GL_TRUE, modelview);
-
-
-  mat4 proj = get_projection(modelview);
-  glUniformMatrix4fv(projLoc, 1, GL_TRUE, proj);
+  camera->sendToShader();
+  plane->draw();
   
   // for (int i = 0; i < 1; i++) {
   //   glUniform4fv(faceColourLoc, 1, colour[i]);
@@ -135,7 +103,6 @@ void display( void )
   //   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);    // draw the square
   // }
 
-  plane->draw();
   glutSwapBuffers();
 }
 
@@ -159,32 +126,32 @@ void arrow(int key, int x, int y)
 {
   switch (key) {
   case GLUT_KEY_LEFT:
-    pos -= vec4(0.05, 0, 0, 0);
+    camera->moveEye(-0.2, 0, 0);
     break;
   case GLUT_KEY_RIGHT:
-    pos += vec4(0.05, 0, 0, 0);
+    camera->moveEye(0.2, 0, 0);
     break;
   case GLUT_KEY_UP:
-    pos += vec4(0, 0, 0.05, 0);
+    camera->moveEye(0, 0, -0.2);
     break;
   case GLUT_KEY_DOWN:
-    pos -= vec4(0, 0, 0.05, 0);
+    camera->moveEye(0, 0, 0.2);
     break;
-  case GLUT_KEY_PAGE_UP:
-    scale *= 1.05;
-    break;
-  case GLUT_KEY_PAGE_DOWN:
-    scale *= 1.0/1.05;
-    break;
-  case GLUT_KEY_HOME:
-    theta_x += 0.5;
-    break;
-  case GLUT_KEY_END:
-    theta_y += 0.5;
-    break;
-  case GLUT_KEY_INSERT:
-    theta_z += 0.5;
-    break;
+  // case GLUT_KEY_PAGE_UP:
+  //   scale *= 1.05;
+  //   break;
+  // case GLUT_KEY_PAGE_DOWN:
+  //   scale *= 1.0/1.05;
+  //   break;
+  // case GLUT_KEY_HOME:
+  //   theta_x += 0.5;
+  //   break;
+  // case GLUT_KEY_END:
+  //   theta_y += 0.5;
+  //   break;
+  // case GLUT_KEY_INSERT:
+  //   theta_z += 0.5;
+  //   break;
   }
   glutPostRedisplay();
 }
