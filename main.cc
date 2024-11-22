@@ -1,5 +1,11 @@
 #include <Angel.h>
-#include "Objects.h"
+#include "Object.h"
+#include "Wheels.h"
+#include "Traffic_Light.h"
+#include "Plane.h"
+#include "Car.h"
+#include "Camera.h"
+#include "Buildings.h"
 #include <iostream>
 
 using namespace std;

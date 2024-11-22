@@ -1,10 +1,8 @@
-
+#include <Angel.h>
+#include "Object.h"
 
 #ifndef CAR_H
 #define CAR_H
-
-#include <Angel.h>
-#include "Objects.h"
 
 
 class Car : public Object {

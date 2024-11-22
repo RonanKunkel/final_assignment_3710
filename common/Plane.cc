@@ -1,5 +1,4 @@
-#include "Objects.h"
-
+#include "Plane.h"
 
 Plane::Plane(GLuint vertexLoc, GLuint faceLoc,
 	     GLuint modelLoc, vec4 pos,
@@ -64,4 +63,3 @@ void Plane::draw() const
   glBindVertexArray(vao[1]);
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
-
