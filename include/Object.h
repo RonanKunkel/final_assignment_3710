@@ -7,12 +7,12 @@
 using namespace std;
 
 class Object {
-//  public:
+ public:
 //     Object(GLuint vertexloc, GLuint faceloc, GLuint modeloc,
 //     vec4 pos, GLfloat theta_x = 0, GLfloat theta_y = 0,GLfloat theta_z = 0,
 //     GLfloat scale_x = 1,GLfloat scale_y = 1,GLfloat scale_z = 1);
 //     ~Object();
-//     void draw() const;
+    // virtual void draw() const;
 //  private:
 //   mat4 model;
 //   GLuint vertex_loc, face_loc, model_loc;

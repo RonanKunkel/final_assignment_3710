@@ -14,7 +14,7 @@ class Plane : public Object {
  private:
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;
-  GLuint vao[1], buffer[1];
+  GLuint vao[0], buffer[0];
 };
 
 #endif
