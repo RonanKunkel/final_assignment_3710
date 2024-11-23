@@ -11,6 +11,10 @@ class Plane : public Object {
     GLfloat scale_x = 1,GLfloat scale_y = 1,GLfloat scale_z = 1);
     ~Plane();
     void draw() const;
+    void moveLeft();
+    void moveRight();
+    void moveForward();
+    void moveBackward();
  private:
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;

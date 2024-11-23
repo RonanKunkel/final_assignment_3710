@@ -13,6 +13,7 @@ using namespace std;
 //----------------------------------------------------------------------------
 Plane  *plane; 
 Camera *camera;
+vec4 pos(0.0, 0.0, 0.0, 1.0);
 
 bool use_perspective = false;
 GLfloat camera_theta = M_PI/2, camera_radius = 1.0;
@@ -34,11 +35,11 @@ void init()
   GLuint loc = glGetAttribLocation( program, "vPosition" );
 
   // Create the plane
-  plane = new Plane(loc, faceColourLoc, modelLoc, vec4(0,0,0,0));
+  plane = new Plane(loc, faceColourLoc, modelLoc, pos);
 
-  vec4 eye(0, 15, 0, 1);
+  vec4 eye(0, 15, 5, 1);
   vec4 at(0, 0, 0, 1);
-  vec4 up(0, 0, 1, 0);
+  vec4 up(0, 5, -5, 0);
   camera = new Camera(viewLoc, projLoc, eye, at, up, -10, 10, -10, 10, -1, 100);
   
   glClearColor( 0.0, 0.0, 0.0, 1.0 ); // black background
@@ -104,16 +105,16 @@ void arrow(int key, int x, int y)
 {
   switch (key) {
   case GLUT_KEY_LEFT:
-    camera->moveEye(-0.2, 0, 0);
+    plane->moveLeft();
     break;
   case GLUT_KEY_RIGHT:
-    camera->moveEye(0.2, 0, 0);
+    plane->moveRight();
     break;
   case GLUT_KEY_UP:
-    camera->moveEye(0, -0.2, -0.2);
+    plane->moveForward();
     break;
   case GLUT_KEY_DOWN:
-    camera->moveEye(0, 0.2, 0.2);
+    plane->moveBackward();
     break;
   // case GLUT_KEY_PAGE_UP:
   //   scale *= 1.05;
@@ -177,7 +178,7 @@ int main( int argc, char **argv )
 {
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-  glutInitWindowSize(1024, 1024);
+  glutInitWindowSize(512, 512);
 
   // If you are using freeglut, the next two lines will check if 
   // the code is truly 3.2. Otherwise, comment them out

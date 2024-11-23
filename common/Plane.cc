@@ -63,3 +63,19 @@ void Plane::draw() const
 
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
+
+void Plane::moveLeft() {
+    model = model * Translate(-0.5, 0, 0);
+}
+
+void Plane::moveRight() {
+    model = model * Translate(0.5, 0, 0);
+}
+
+void Plane::moveForward() {
+    model = model * Translate(0, 0, -0.5);
+}
+
+void Plane::moveBackward() {
+    model = model * Translate(0, 0, 0.5);
+}
