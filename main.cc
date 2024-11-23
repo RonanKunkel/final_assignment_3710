@@ -36,9 +36,9 @@ void init()
   // Create the plane
   plane = new Plane(loc, faceColourLoc, modelLoc, vec4(0,0,0,0));
 
-  vec4 eye(0, 15, 5, 1);
+  vec4 eye(0, 15, 0, 1);
   vec4 at(0, 0, 0, 1);
-  vec4 up(0, 1, 0, 0);
+  vec4 up(0, 0, 1, 0);
   camera = new Camera(viewLoc, projLoc, eye, at, up, -10, 10, -10, 10, -1, 100);
   
   glClearColor( 0.0, 0.0, 0.0, 1.0 ); // black background

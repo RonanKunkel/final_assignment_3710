@@ -36,7 +36,7 @@ Plane::Plane(GLuint vertexLoc, GLuint faceLoc,
       glBufferData(GL_ARRAY_BUFFER, size * sizeof(vec4), A, GL_STATIC_DRAW);
 
       glEnableVertexAttribArray( vertexLoc );
-      glVertexAttribPointer( vertexLoc, 3, GL_FLOAT, GL_FALSE, 0,
+      glVertexAttribPointer( vertexLoc, 4, GL_FLOAT, GL_FALSE, 0,
 	  		   BUFFER_OFFSET(0) );
     }
 
