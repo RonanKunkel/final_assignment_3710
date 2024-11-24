@@ -21,7 +21,7 @@ class building1 : public Object { // Maksym
     void moveBackward();
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;
-  GLuint vao[6], buffer[6];
+  GLuint vao[10], buffer[10];
 };
 
 

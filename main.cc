@@ -14,6 +14,14 @@ using namespace std;
 //----------------------------------------------------------------------------
 Plane  *plane; 
 building1 *building;
+building1 *buildinga;
+building1 *buildingb;
+building1 *buildingc;
+building1 *buildingd;
+building1 *buildinge;
+building1 *buildingf;
+building1 *buildingg;
+
 CameraGTA *cameraP;
 Camera *cameraO;
 int cameraChoice = 0;
@@ -40,7 +48,16 @@ void init()
 
   // Create the plane
   plane = new Plane(loc, faceColourLoc, modelLoc, pos);
-  building = new building1(loc, faceColourLoc, modelLoc, pos);
+  building = new building1(loc, faceColourLoc, modelLoc, vec4(2.0,0.1,2.0,1.0));
+  buildinga = new building1(loc, faceColourLoc, modelLoc, vec4(2.0,0.1,3.5,1.0));
+  buildingb = new building1(loc, faceColourLoc, modelLoc, vec4(2.0,0.1,5.0,1.0));
+  buildingc = new building1(loc, faceColourLoc, modelLoc, vec4(2.0,0.1,6.5,1.0));
+  buildingd = new building1(loc, faceColourLoc, modelLoc, vec4(5.0,0.1,6.5,1.0));
+  buildinge = new building1(loc, faceColourLoc, modelLoc, vec4(5.0,0.1,5.0,1.0));
+  buildingf = new building1(loc, faceColourLoc, modelLoc, vec4(5.0,0.1,3.5,1.0));
+  buildingg = new building1(loc, faceColourLoc, modelLoc, vec4(5.0,0.1,2.0,1.0));
+
+
 
 
   // gta style
@@ -92,6 +109,14 @@ void display( void )
 
   plane->draw();
   building->draw();
+  buildinga->draw();
+  buildingb->draw();
+  buildingc->draw();
+  buildingd->draw();
+  buildinge->draw();
+  buildingf->draw();
+  buildingg->draw();
+
 
   glutSwapBuffers();
 }
@@ -125,21 +150,49 @@ void arrow(int key, int x, int y)
   case GLUT_KEY_LEFT:
     plane->moveLeft();
     building->moveLeft();
+buildinga->moveLeft();
+buildingb->moveLeft();
+buildingc->moveLeft();
+buildingd->moveLeft();
+buildinge->moveLeft();
+buildingf->moveLeft();
+buildingg->moveLeft();
 
     break;
   case GLUT_KEY_RIGHT:
     plane->moveRight();
     building->moveRight();
+buildinga->moveRight();
+buildingb->moveRight();
+buildingc->moveRight();
+buildingd->moveRight();
+buildinge->moveRight();
+buildingf->moveRight();
+buildingg->moveRight();
 
     break;
   case GLUT_KEY_UP:
     plane->moveForward();
     building->moveForward();
+buildinga->moveForward();
+buildingb->moveForward();
+buildingc->moveForward();
+buildingd->moveForward();
+buildinge->moveForward();
+buildingf->moveForward();
+buildingg->moveForward();
 
     break;
   case GLUT_KEY_DOWN:
     plane->moveBackward();
    building->moveBackward();
+buildinga->moveBackward();
+buildingb->moveBackward();
+buildingc->moveBackward();
+buildingd->moveBackward();
+buildinge->moveBackward();
+buildingf->moveBackward();
+buildingg->moveBackward();
 
     break;
   // case GLUT_KEY_PAGE_UP:
