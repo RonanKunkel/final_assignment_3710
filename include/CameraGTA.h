@@ -1,21 +1,20 @@
 #include <Angel.h>
 
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef CAMERAGTA_H
+#define CAMERAGTA_H
 
 using namespace std;
 
-class Camera
+class CameraGTA
 {
 public:
-  Camera(GLuint viewLoc, GLuint projLoc,
+  CameraGTA(GLuint viewLoc, GLuint projLoc,
 	 vec4 eye, vec4 at, vec4 up,
 	 int oleft, int oright, int obot, int otop, int oznear,
 	 int ozfar);
-  ~Camera();
-  static Camera* createOrthoCamera(GLuint viewLoc, GLuint projLoc);
+  ~CameraGTA();
+  static CameraGTA* createGTACamera(GLuint viewLoc, GLuint projLoc);
   void moveEye(GLfloat dx, GLfloat dy, GLfloat dz);
-
   void sendToShader() const;
   
 

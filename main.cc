@@ -5,6 +5,7 @@
 #include "Plane.h"
 #include "Car.h"
 #include "Camera.h"
+#include "CameraGTA.h"
 #include "Buildings.h"
 #include <iostream>
 
@@ -12,26 +13,13 @@ using namespace std;
 
 //----------------------------------------------------------------------------
 Plane  *plane; 
-Camera *camera;
-GLfloat theta_x = 0.0, theta_y = 0.0, theta_z = 0.0;
+CameraGTA *cameraP;
+Camera *cameraO;
+int cameraChoice = 0;
+vec4 pos(0.0, 0.0, 0.0, 1.0);
 
 bool use_perspective = false;
 GLfloat camera_theta = M_PI/2, camera_radius = 1.0;
-
-// const vec4 point[4] = {
-//   vec4(7.25, 0, 7.25, 1), 
-//   vec4(7.25, 0, -7.25, 1),
-//   vec4(-7.25, 0, -7.25, 1),
-//   vec4(-7.25, 0, 7.25, 1)
-// };
-
-// const vec4 colour[2] = {
-//   vec4(0,1,0,1), // Green
-// };
-
-// const int face[1][4] = {
-//   {0,1,2,3}
-// };
 
 void init()
 {
@@ -50,13 +38,12 @@ void init()
   GLuint loc = glGetAttribLocation( program, "vPosition" );
 
   // Create the plane
-  plane = new Plane(loc, faceColourLoc, modelLoc, vec4(0,0,0,0));
+  plane = new Plane(loc, faceColourLoc, modelLoc, pos);
 
-  vec4 at(1.5,0,1.5,1);
-  vec4 up(0,0,1,0);
-  vec4 eye(1.5, -10, 6, 1);
-  camera = new Camera(viewLoc, projLoc, eye, at, up, -8, 8, -8, 8, -1, 100);
-  
+  // gta style
+  cameraP = CameraGTA::createGTACamera(viewLoc, projLoc);
+  // top down (Orhto)
+  cameraO = Camera::createOrthoCamera(viewLoc, projLoc);
   glClearColor( 0.0, 0.0, 0.0, 1.0 ); // black background
 
   glEnable(GL_DEPTH_TEST);
@@ -94,14 +81,13 @@ void display( void )
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-  camera->sendToShader();
+  if (cameraChoice == 1) {
+    cameraO->sendToShader();
+  } else {
+    cameraP->sendToShader();
+  }
+
   plane->draw();
-  
-  // for (int i = 0; i < 1; i++) {
-  //   glUniform4fv(faceColourLoc, 1, colour[i]);
-  //   glBindVertexArray(vao[i]);
-  //   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);    // draw the square
-  // }
 
   glutSwapBuffers();
 }
@@ -116,9 +102,16 @@ keyboard( unsigned char key, int x, int y )
     exit( EXIT_SUCCESS );
     break;
   case 'p':
-    use_perspective = !use_perspective;
+    // use_perspective = !use_perspective;
     glutPostRedisplay();
     break;
+  case 'a':
+    cameraChoice = 1;
+    glutPostRedisplay();
+    break;
+  case 's':
+    cameraChoice = 0;
+    glutPostRedisplay();
   }
 }
 
@@ -126,16 +119,16 @@ void arrow(int key, int x, int y)
 {
   switch (key) {
   case GLUT_KEY_LEFT:
-    camera->moveEye(-0.2, 0, 0);
+    plane->moveLeft();
     break;
   case GLUT_KEY_RIGHT:
-    camera->moveEye(0.2, 0, 0);
+    plane->moveRight();
     break;
   case GLUT_KEY_UP:
-    camera->moveEye(0, 0, -0.2);
+    plane->moveForward();
     break;
   case GLUT_KEY_DOWN:
-    camera->moveEye(0, 0, 0.2);
+    plane->moveBackward();
     break;
   // case GLUT_KEY_PAGE_UP:
   //   scale *= 1.05;
@@ -199,7 +192,7 @@ int main( int argc, char **argv )
 {
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-  glutInitWindowSize(1024, 1024);
+  glutInitWindowSize(512, 512);
 
   // If you are using freeglut, the next two lines will check if 
   // the code is truly 3.2. Otherwise, comment them out

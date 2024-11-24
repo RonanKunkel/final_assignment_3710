@@ -13,12 +13,7 @@ Plane::Plane(GLuint vertexLoc, GLuint faceLoc,
       vec4(-7.25, 0, -7.25, 1),
       vec4(-7.25, 0, 7.25, 1)
     };
-    // const vec4 point[4] = {
-    //   vec4(1, 0, 1, 1), 
-    //   vec4(1, 0, -1, 1),
-    //   vec4(-1, 0, -1, 1),
-    //   vec4(-1, 0, 1, 1)
-    // };
+
     const int face[1][4] = {
       {0,1,2,3}
     };
@@ -41,7 +36,7 @@ Plane::Plane(GLuint vertexLoc, GLuint faceLoc,
       glBufferData(GL_ARRAY_BUFFER, size * sizeof(vec4), A, GL_STATIC_DRAW);
 
       glEnableVertexAttribArray( vertexLoc );
-      glVertexAttribPointer( vertexLoc, 3, GL_FLOAT, GL_FALSE, 0,
+      glVertexAttribPointer( vertexLoc, 4, GL_FLOAT, GL_FALSE, 0,
 	  		   BUFFER_OFFSET(0) );
     }
 
@@ -60,16 +55,27 @@ void Plane::draw() const
 {
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
 
-  glBindVertexArray(vao[0]);
-    glUniform4fv(face_loc, 1, vec4(0,1,0,1));
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[0]);
-    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
-
-  vec4 lightColor[3] =
-    { vec4(1,0,0,1),
-      vec4(1,1,0,1),
-      vec4(0,1,0,1)
-    };
   glBindVertexArray(vao[1]);
+  glUniform4fv(face_loc, 1, vec4(0,1,0,1));
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[0]);
+  glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
+
+
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+}
+
+void Plane::moveLeft() {
+    model = model * Translate(-0.5, 0, 0);
+}
+
+void Plane::moveRight() {
+    model = model * Translate(0.5, 0, 0);
+}
+
+void Plane::moveForward() {
+    model = model * Translate(0, 0, -0.5);
+}
+
+void Plane::moveBackward() {
+    model = model * Translate(0, 0, 0.5);
 }
