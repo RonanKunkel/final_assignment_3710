@@ -13,7 +13,8 @@ public:
 	 int oleft, int oright, int obot, int otop, int oznear,
 	 int ozfar);
   ~Camera();
-
+  static Camera* createGTACamera(GLuint viewLoc, GLuint projLoc);
+  static Camera* createOrthoCamera(GLuint viewLoc, GLuint projLoc);
   void moveEye(GLfloat dx, GLfloat dy, GLfloat dz);
 
   void sendToShader() const;

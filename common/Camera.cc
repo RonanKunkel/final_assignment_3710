@@ -7,11 +7,26 @@ Camera::Camera(GLuint viewLoc, GLuint projLoc,
   : view_loc(viewLoc), proj_loc(projLoc), eye_pos(eye), at_pos(at), up_dir(up)
 {
   proj_mat = Ortho(oleft, oright, obot, otop, oznear, ozfar);
+  // proj_mat = Perspective(120, 1.0, 0.5, 20);
 }
 
-Camera::~Camera()
-{
+Camera::~Camera() {}
 
+Camera* Camera::createGTACamera(GLuint viewLoc, GLuint projLoc) {
+    vec4 eye(0, 10, 15, 1);   // Camera position
+    vec4 at(0, 0, 0, 1);      // Look-at point
+    vec4 up(0, 1, 0, 0);      // Up direction
+    
+    return new Camera(viewLoc, projLoc, eye, at, up, -10, 10, -10, 10, -1, 100);
+}
+
+Camera* Camera::createOrthoCamera(GLuint viewLoc, GLuint projLoc) {
+    // top down
+    vec4 eye(0, 15, 5, 1);
+    vec4 at(0, 0, 0, 1);
+    vec4 up(0, 5, -5, 0);
+    
+    return new Camera(viewLoc, projLoc, eye, at, up, -10, 10, -10, 10, -1, 100);
 }
 
 void Camera::moveEye(GLfloat dx, GLfloat dy, GLfloat dz)

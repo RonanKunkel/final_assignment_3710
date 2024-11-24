@@ -12,7 +12,9 @@ using namespace std;
 
 //----------------------------------------------------------------------------
 Plane  *plane; 
-Camera *camera;
+Camera *cameraP;
+Camera *cameraO;
+int cameraChoice = 0;
 vec4 pos(0.0, 0.0, 0.0, 1.0);
 
 bool use_perspective = false;
@@ -37,11 +39,15 @@ void init()
   // Create the plane
   plane = new Plane(loc, faceColourLoc, modelLoc, pos);
 
-  vec4 eye(0, 15, 5, 1);
-  vec4 at(0, 0, 0, 1);
-  vec4 up(0, 5, -5, 0);
-  camera = new Camera(viewLoc, projLoc, eye, at, up, -10, 10, -10, 10, -1, 100);
-  
+  // top down
+  // vec4 eye(0, 15, 5, 1);
+  // vec4 at(0, 0, 0, 1);
+  // vec4 up(0, 5, -5, 0);
+
+  // gta style
+  cameraP = Camera::createGTACamera(viewLoc, projLoc);
+  // top down (Orhto)
+  cameraO = Camera::createOrthoCamera(viewLoc, projLoc);
   glClearColor( 0.0, 0.0, 0.0, 1.0 ); // black background
 
   glEnable(GL_DEPTH_TEST);
@@ -79,7 +85,12 @@ void display( void )
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-  camera->sendToShader();
+  if (cameraChoice == 1) {
+    cameraO->sendToShader();
+  } else {
+    cameraP->sendToShader();
+  }
+
   plane->draw();
 
   glutSwapBuffers();
@@ -95,9 +106,16 @@ keyboard( unsigned char key, int x, int y )
     exit( EXIT_SUCCESS );
     break;
   case 'p':
-    use_perspective = !use_perspective;
+    // use_perspective = !use_perspective;
     glutPostRedisplay();
     break;
+  case 'a':
+    cameraChoice = 1;
+    glutPostRedisplay();
+    break;
+  case 's':
+    cameraChoice = 0;
+    glutPostRedisplay();
   }
 }
 
