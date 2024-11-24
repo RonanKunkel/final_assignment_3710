@@ -13,6 +13,7 @@ using namespace std;
 
 //----------------------------------------------------------------------------
 Plane  *plane; 
+building1 *building;
 CameraGTA *cameraP;
 Camera *cameraO;
 int cameraChoice = 0;
@@ -39,6 +40,8 @@ void init()
 
   // Create the plane
   plane = new Plane(loc, faceColourLoc, modelLoc, pos);
+  building = new building1(loc, faceColourLoc, modelLoc, pos);
+
 
   // gta style
   cameraP = CameraGTA::createGTACamera(viewLoc, projLoc);
@@ -88,6 +91,7 @@ void display( void )
   }
 
   plane->draw();
+  building->draw();
 
   glutSwapBuffers();
 }
@@ -120,15 +124,23 @@ void arrow(int key, int x, int y)
   switch (key) {
   case GLUT_KEY_LEFT:
     plane->moveLeft();
+    building->moveLeft();
+
     break;
   case GLUT_KEY_RIGHT:
     plane->moveRight();
+    building->moveRight();
+
     break;
   case GLUT_KEY_UP:
     plane->moveForward();
+    building->moveForward();
+
     break;
   case GLUT_KEY_DOWN:
     plane->moveBackward();
+   building->moveBackward();
+
     break;
   // case GLUT_KEY_PAGE_UP:
   //   scale *= 1.05;
