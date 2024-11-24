@@ -5,6 +5,7 @@
 #include "Plane.h"
 #include "Car.h"
 #include "Camera.h"
+#include "CameraGTA.h"
 #include "Buildings.h"
 #include <iostream>
 
@@ -12,7 +13,7 @@ using namespace std;
 
 //----------------------------------------------------------------------------
 Plane  *plane; 
-Camera *cameraP;
+CameraGTA *cameraP;
 Camera *cameraO;
 int cameraChoice = 0;
 vec4 pos(0.0, 0.0, 0.0, 1.0);
@@ -39,13 +40,8 @@ void init()
   // Create the plane
   plane = new Plane(loc, faceColourLoc, modelLoc, pos);
 
-  // top down
-  // vec4 eye(0, 15, 5, 1);
-  // vec4 at(0, 0, 0, 1);
-  // vec4 up(0, 5, -5, 0);
-
   // gta style
-  cameraP = Camera::createGTACamera(viewLoc, projLoc);
+  cameraP = CameraGTA::createGTACamera(viewLoc, projLoc);
   // top down (Orhto)
   cameraO = Camera::createOrthoCamera(viewLoc, projLoc);
   glClearColor( 0.0, 0.0, 0.0, 1.0 ); // black background

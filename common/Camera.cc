@@ -12,14 +12,6 @@ Camera::Camera(GLuint viewLoc, GLuint projLoc,
 
 Camera::~Camera() {}
 
-Camera* Camera::createGTACamera(GLuint viewLoc, GLuint projLoc) {
-    vec4 eye(0, 10, 15, 1);   // Camera position
-    vec4 at(0, 0, 0, 1);      // Look-at point
-    vec4 up(0, 1, 0, 0);      // Up direction
-    
-    return new Camera(viewLoc, projLoc, eye, at, up, -10, 10, -10, 10, -1, 100);
-}
-
 Camera* Camera::createOrthoCamera(GLuint viewLoc, GLuint projLoc) {
     // top down
     vec4 eye(0, 15, 5, 1);
