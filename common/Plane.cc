@@ -65,11 +65,13 @@ void Plane::draw() const
 }
 
 void Plane::moveLeft() {
-    model = model * Translate(-0.5, 0, 0);
+    // model = model * Translate(-0.5, 0, 0);
+    model = model * RotateY(90);
 }
 
 void Plane::moveRight() {
-    model = model * Translate(0.5, 0, 0);
+    // model = model * Translate(0.5, 0, 0);
+    model = model * RotateY(-90);
 }
 
 void Plane::moveForward() {
