@@ -16,7 +16,8 @@ Camera *currentCamera;
 vec4 car_position(0.0, 0.0, 0.0, 1.0);
 
 
-Plane  *plane; 
+Plane  *plane;
+Car *car;
 building1 *buildings1[8];
 building4 *buildings4[4];
 PavementX *pavementsX[9];
@@ -46,6 +47,7 @@ void init()
   GLuint loc = glGetAttribLocation( program, "vPosition" );
 
   plane = new Plane(loc, faceColourLoc, modelLoc, vec4(0.0, 0.0, 0.0, 1.0));
+  car = new Car(loc, faceColourLoc, modelLoc, car_position);
 
   vec4 buildingPositions1[8] = {
     vec4(2.25, 0.1, 2.15, 1.0), vec4(2.25, 0.1, 3.65, 1.0), vec4(2.25, 0.1, 5.15, 1.0),
@@ -126,6 +128,7 @@ void display( void )
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
   plane->draw();
+  car->draw();
   for (int i = 0; i < 8; ++i) buildings1[i]->draw();
   for (int i = 0; i < 4; ++i) buildings4[i]->draw();
   for (int i = 0; i < 9; ++i) pavementsX[i]->draw();
