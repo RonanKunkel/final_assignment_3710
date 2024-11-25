@@ -1,6 +1,6 @@
-#include "pavement.h"
+#include "Pavement.h"
 
-pavement::pavement(GLuint vertexLoc, GLuint faceLoc,
+Pavement::Pavement(GLuint vertexLoc, GLuint faceLoc,
 	     GLuint modelLoc, vec4 pos,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
 	     GLfloat scale_x, GLfloat scale_y, GLfloat scale_z)
@@ -8,10 +8,10 @@ pavement::pavement(GLuint vertexLoc, GLuint faceLoc,
     model_loc{modelLoc}
 {
     const vec4 point[4] = {
-      vec4(-6.25, 0.0001, 7.25, 1), //v0
-      vec4(-5.75, 0.0001, 7.25, 1),  //v1
-      vec4(-6.25, 0.0001, -7.25, 1), //v2
-      vec4(-5.75, 0.0001, -7.25, 1) //v3
+      vec4(-0.75, 0.0001, 7.25, 1), //v0
+      vec4(0.25, 0.0001, 7.25, 1),  //v1
+      vec4(-0.75, 0.0001, -7.25, 1), //v2
+      vec4(0.25, 0.0001, -7.25, 1) //v3
     };
 
     const int face[1][4] = {
@@ -45,13 +45,13 @@ pavement::pavement(GLuint vertexLoc, GLuint faceLoc,
       * Scale(scale_x, scale_y, scale_z);
 }
 
-pavement::~pavement()
+Pavement::~Pavement()
 {
   glDeleteVertexArrays(1, vao);
   glDeleteBuffers(1, buffer);
 }
 
-void pavement::draw() const
+void Pavement::draw() const
 {
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
 
@@ -64,20 +64,20 @@ void pavement::draw() const
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 
-void pavement::moveLeft() {
+void Pavement::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
     model = model * RotateY(90);
 }
 
-void pavement::moveRight() {
+void Pavement::moveRight() {
     // model = model * Translate(0.5, 0, 0);
     model = model * RotateY(-90);
 }
 
-void pavement::moveForward() {
+void Pavement::moveForward() {
     model = model * Translate(0, 0, -0.5);
 }
 
-void pavement::moveBackward() {
+void Pavement::moveBackward() {
     model = model * Translate(0, 0, 0.5);
 }

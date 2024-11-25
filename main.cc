@@ -5,35 +5,23 @@
 #include "Plane.h"
 #include "Car.h"
 #include "Camera.h"
-#include "CameraGTA.h"
 #include "Buildings.h"
+#include "Pavement.h"
 #include <iostream>
-#include "pavement.h"
+
 using namespace std;
 
 //----------------------------------------------------------------------------
+Camera *currentCamera;
+vec4 car_position(0.0, 0.0, 0.0, 1.0);
+
+
 Plane  *plane; 
-building1 *building;
-building1 *buildinga;
-building1 *buildingb;
-building1 *buildingc;
-building1 *buildingd;
-building1 *buildinge;
-building1 *buildingf;
-building1 *buildingg;
-building4 *buildingr;
-building4 *buildingro;
-building4 *buildingron;
-building4 *buildingrona;
-pavement *pavement1;
-pavement *pavement2;
+building1 *buildings1[8];
+building4 *buildings4[4];
+Pavement *pavements[9];
 
-CameraGTA *cameraP;
-Camera *cameraO;
-int cameraChoice = 0;
-vec4 pos(0.0, 0.0, 0.0, 1.0);
 
-bool use_perspective = false;
 GLfloat camera_theta = M_PI/2, camera_radius = 1.0;
 
 void init()
@@ -44,39 +32,48 @@ void init()
   // Load shaders and use the resulting shader program
   GLuint program = InitShader("shaders/vshader.glsl", "shaders/fshader.glsl");
   glUseProgram(program);
+
   faceColourLoc = glGetUniformLocation(program, "uFaceColour");
   modelLoc = glGetUniformLocation(program, "uModel");
   viewLoc = glGetUniformLocation(program, "uView");
   projLoc = glGetUniformLocation(program, "uProjection");
 
+  currentCamera = Camera::createPerspectiveCamera(viewLoc, projLoc);
+  currentCamera->setDefaultView(car_position);
+  currentCamera->sendToShader();
+
   // Initialize the vertex position attribute from the vertex shader
   GLuint loc = glGetAttribLocation( program, "vPosition" );
 
-  // Create the plane
-  plane = new Plane(loc, faceColourLoc, modelLoc, pos);
-  building = new building1(loc, faceColourLoc, modelLoc, vec4(2.0,0.1,2.0,1.0));
-  buildinga = new building1(loc, faceColourLoc, modelLoc, vec4(2.0,0.1,3.5,1.0));
-  buildingb = new building1(loc, faceColourLoc, modelLoc, vec4(2.0,0.1,5.0,1.0));
-  buildingc = new building1(loc, faceColourLoc, modelLoc, vec4(2.0,0.1,6.5,1.0));
-  buildingd = new building1(loc, faceColourLoc, modelLoc, vec4(5.0,0.1,6.5,1.0));
-  buildinge = new building1(loc, faceColourLoc, modelLoc, vec4(5.0,0.1,5.0,1.0));
-  buildingf = new building1(loc, faceColourLoc, modelLoc, vec4(5.0,0.1,3.5,1.0));
-  buildingg = new building1(loc, faceColourLoc, modelLoc, vec4(5.0,0.1,2.0,1.0));
-  buildingr = new building4(loc, faceColourLoc, modelLoc, vec4(-1.0,0.1,2.0,1.0 ));
-  buildingro = new building4(loc, faceColourLoc, modelLoc, vec4(-1.0,0.1,3.5,1.0 ));
-  buildingron = new building4(loc, faceColourLoc, modelLoc, vec4(-1.0,0.1,5.0,1.0 ));
-  buildingrona = new building4(loc, faceColourLoc, modelLoc, vec4(-1.0,0.1,6.5,1.0 ));
-pavement1 = new pavement(loc, faceColourLoc, modelLoc, pos);
-pavement2 = new pavement(loc, faceColourLoc, modelLoc, vec4(1.5,0.0,0.0,1.0));
+  plane = new Plane(loc, faceColourLoc, modelLoc, vec4(0.0, 0.0, 0.0, 1.0));
+
+  vec4 buildingPositions1[8] = {
+    vec4(2.0, 0.1, 2.0, 1.0), vec4(2.0, 0.1, 3.5, 1.0), vec4(2.0, 0.1, 5.0, 1.0),
+    vec4(2.0, 0.1, 6.5, 1.0), vec4(5.0, 0.1, 6.5, 1.0), vec4(5.0, 0.1, 5.0, 1.0),
+    vec4(5.0, 0.1, 3.5, 1.0), vec4(5.0, 0.1, 2.0, 1.0)
+
+  };
+
+  for (int i = 0; i < 8; ++i) {
+    buildings1[i] = new building1(loc, faceColourLoc, modelLoc, buildingPositions1[i]);
+  }
+
+  vec4 buildingPositions4[4] = {
+    vec4(-1.0, 0.1, 2.0, 1.0), vec4(-1.0, 0.1, 3.5, 1.0),
+    vec4(-1.0, 0.1, 5.0, 1.0), vec4(-1.0, 0.1, 6.5, 1.0)
+  };
+
+  for (int i = 0; i < 4; ++i) {
+    buildings4[i] = new building4(loc, faceColourLoc, modelLoc, buildingPositions4[i]);
+  }
+
+  for (int i = 0; i < 9; ++i) {
+    pavements[i] = new Pavement(loc, faceColourLoc, modelLoc, vec4(1.5 * i, 0.0, 0.0, 1.0));
+  }
+  
 
 
-
-  // gta style
-  cameraP = CameraGTA::createGTACamera(viewLoc, projLoc);
-  // top down (Orhto)
-  cameraO = Camera::createOrthoCamera(viewLoc, projLoc);
   glClearColor( 0.0, 0.0, 0.0, 1.0 ); // black background
-
   glEnable(GL_DEPTH_TEST);
   glClearDepth(1.0);
   glDepthFunc(GL_LESS);
@@ -112,128 +109,102 @@ void display( void )
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-  if (cameraChoice == 1) {
-    cameraO->sendToShader();
-  } else {
-    cameraP->sendToShader();
-  }
-
   plane->draw();
-  building->draw();
-  buildinga->draw();
-  buildingb->draw();
-  buildingc->draw();
-  buildingd->draw();
-  buildinge->draw();
-  buildingf->draw();
-  buildingg->draw();
-  buildingr->draw();
-  buildingro->draw();
-  buildingron->draw();
-  buildingrona->draw();
-pavement1->draw();
-pavement2->draw();
+  for (int i = 0; i < 8; ++i) buildings1[i]->draw();
+  for (int i = 0; i < 4; ++i) buildings4[i]->draw();
+  for (int i = 0; i < 9; ++i) pavements[i]->draw();
+
   glutSwapBuffers();
 }
 
 //----------------------------------------------------------------------------
 
-void
-keyboard( unsigned char key, int x, int y )
-{
-  switch ( key ) {
-  case 033:
-    exit( EXIT_SUCCESS );
-    break;
-  case 'p':
-    // use_perspective = !use_perspective;
-    glutPostRedisplay();
-    break;
-  case 'a':
-    cameraChoice = 1;
-    glutPostRedisplay();
-    break;
-  case 's':
-    cameraChoice = 0;
-    glutPostRedisplay();
+void cameraAndMovement(int key, int x, int y) {
+  switch (key) {
+    case GLUT_KEY_F1:
+      currentCamera->setDefaultView(car_position);
+      break;
+    case GLUT_KEY_F2:
+      currentCamera->setOverheadView(car_position);
+      break;
+    case GLUT_KEY_F3:
+      currentCamera->setSideView(car_position);
+      break;
+  }
+
+    switch (key) {
+    case GLUT_KEY_LEFT:
+      plane->moveLeft();
+      for (int i = 0; i < 8; ++i) buildings1[i]->moveLeft();
+      for (int i = 0; i < 4; ++i) buildings4[i]->moveLeft();
+      for (int i = 0; i < 9; ++i) pavements[i]->moveLeft();
+      break;
+    case GLUT_KEY_RIGHT:
+      plane->moveRight();
+      for (int i = 0; i < 8; ++i) buildings1[i]->moveRight();
+      for (int i = 0; i < 4; ++i) buildings4[i]->moveRight();
+      for (int i = 0; i < 9; ++i) pavements[i]->moveRight();
+      break;
+    case GLUT_KEY_UP:
+      plane->moveForward();
+      for (int i = 0; i < 8; ++i) buildings1[i]->moveForward();
+      for (int i = 0; i < 4; ++i) buildings4[i]->moveForward();
+      for (int i = 0; i < 9; ++i) pavements[i]->moveForward();
+      break;
+    case GLUT_KEY_DOWN:
+      plane->moveBackward();
+      for (int i = 0; i < 8; ++i) buildings1[i]->moveBackward();
+      for (int i = 0; i < 4; ++i) buildings4[i]->moveBackward();
+      for (int i = 0; i < 9; ++i) pavements[i]->moveBackward();
+      break;
+  }
+  
+  currentCamera->sendToShader();
+  glutPostRedisplay();
+}
+
+void keyboard(unsigned char key, int x, int y) {
+  switch (key) {
+    case 033: // Escape key
+      exit(EXIT_SUCCESS);
+      break;
+    // case 'p': 
+    //   currentCamera->setProjection(Perspective(45.0, 1.0, 0.1, 100.0));
+    //   currentCamera->sendToShader();
+    //   glutPostRedisplay();
+    //   break;
   }
 }
 
-void arrow(int key, int x, int y)
-{
-  switch (key) {
-  case GLUT_KEY_LEFT:
-    plane->moveLeft();
-    building->moveLeft();
-buildinga->moveLeft();
-buildingb->moveLeft();
-buildingc->moveLeft();
-buildingd->moveLeft();
-buildinge->moveLeft();
-buildingf->moveLeft();
-buildingg->moveLeft();
-buildingr->moveLeft();
-buildingro->moveLeft();
-buildingron->moveLeft();
-buildingrona->moveLeft();
-pavement1->moveLeft();
-pavement2->moveLeft();
 
-    break;
-  case GLUT_KEY_RIGHT:
-    plane->moveRight();
-    building->moveRight();
-buildinga->moveRight();
-buildingb->moveRight();
-buildingc->moveRight();
-buildingd->moveRight();
-buildinge->moveRight();
-buildingf->moveRight();
-buildingg->moveRight();
-buildingr->moveRight();
-buildingro->moveRight();
-buildingron->moveRight();
-buildingrona->moveRight();
-pavement1->moveRight();
-pavement2->moveRight();
+// void arrow(int key, int x, int y) {
+//   switch (key) {
+//     case GLUT_KEY_LEFT:
+//       plane->moveLeft();
+//       for (int i = 0; i < 8; ++i) buildings1[i]->moveLeft();
+//       for (int i = 0; i < 4; ++i) buildings4[i]->moveLeft();
+//       for (int i = 0; i < 9; ++i) pavements[i]->moveLeft();
+//       break;
+//     case GLUT_KEY_RIGHT:
+//       plane->moveRight();
+//       for (int i = 0; i < 8; ++i) buildings1[i]->moveRight();
+//       for (int i = 0; i < 4; ++i) buildings4[i]->moveRight();
+//       for (int i = 0; i < 9; ++i) pavements[i]->moveRight();
+//       break;
+//     case GLUT_KEY_UP:
+//       plane->moveForward();
+//       for (int i = 0; i < 8; ++i) buildings1[i]->moveForward();
+//       for (int i = 0; i < 4; ++i) buildings4[i]->moveForward();
+//       for (int i = 0; i < 9; ++i) pavements[i]->moveForward();
+//       break;
+//     case GLUT_KEY_DOWN:
+//       plane->moveBackward();
+//       for (int i = 0; i < 8; ++i) buildings1[i]->moveBackward();
+//       for (int i = 0; i < 4; ++i) buildings4[i]->moveBackward();
+//       for (int i = 0; i < 9; ++i) pavements[i]->moveBackward();
+//       break;
+//   }
 
-    break;
-  case GLUT_KEY_UP:
-    plane->moveForward();
-    building->moveForward();
-buildinga->moveForward();
-buildingb->moveForward();
-buildingc->moveForward();
-buildingd->moveForward();
-buildinge->moveForward();
-buildingf->moveForward();
-buildingg->moveForward();
-buildingr->moveForward();
-buildingro->moveForward();
-buildingron->moveForward();
-buildingrona->moveForward();
-pavement1->moveForward();
-pavement2->moveForward();
-
-    break;
-  case GLUT_KEY_DOWN:
-    plane->moveBackward();
-   building->moveBackward();
-buildinga->moveBackward();
-buildingb->moveBackward();
-buildingc->moveBackward();
-buildingd->moveBackward();
-buildinge->moveBackward();
-buildingf->moveBackward();
-buildingg->moveBackward();
-buildingr->moveBackward();
-buildingro->moveBackward();
-buildingron->moveBackward();
-buildingrona->moveBackward();
-pavement1->moveBackward();
-pavement2->moveBackward();
-
-    break;
   // case GLUT_KEY_PAGE_UP:
   //   scale *= 1.05;
   //   break;
@@ -249,9 +220,9 @@ pavement2->moveBackward();
   // case GLUT_KEY_INSERT:
   //   theta_z += 0.5;
   //   break;
-  }
-  glutPostRedisplay();
-}
+
+//   glutPostRedisplay();
+// }
 
 void mouse_button(int button, int state, int x, int y)
 {
@@ -277,18 +248,18 @@ void mouse_button(int button, int state, int x, int y)
   }
 }
 
-// note: on some platform the following doesn't work
-void mouse_wheel(int wheel, int dir, int x, int y)
-{
-  if (dir > 0) {
-    camera_radius -= 0.1;
-    if (camera_radius < 1.0)
-      camera_radius = 1.0;
-  } else {
-    camera_radius += 0.1;
-  }
-  glutPostRedisplay();
-}
+// // note: on some platform the following doesn't work
+// void mouse_wheel(int wheel, int dir, int x, int y)
+// {
+//   if (dir > 0) {
+//     camera_radius -= 0.1;
+//     if (camera_radius < 1.0)
+//       camera_radius = 1.0;
+//   } else {
+//     camera_radius += 0.1;
+//   }
+//   glutPostRedisplay();
+// }
 
 //----------------------------------------------------------------------------
 
@@ -304,17 +275,18 @@ int main( int argc, char **argv )
   glutInitContextVersion(3, 2);
   glutInitContextProfile(GLUT_CORE_PROFILE);
 
-  glutCreateWindow("Triangular Prism");
+  glutCreateWindow("City Simulation");
 
   glewInit();
 
   init();
 
   glutDisplayFunc(display);
+  glutSpecialFunc(cameraAndMovement);
   glutKeyboardFunc(keyboard);
-  glutSpecialFunc(arrow);
+  // glutSpecialFunc(arrow);
   glutMouseFunc(mouse_button);
-  glutMouseWheelFunc(mouse_wheel);
+  // glutMouseWheelFunc(mouse_wheel);
   
   glutMainLoop();
   return 0;
