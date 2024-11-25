@@ -124,12 +124,12 @@ for(int i = 0; i < 10; i++) {
 }
 void building1::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
-    model = model * RotateY(90);
+    model = RotateY(90) * model;
 }
 
 void building1::moveRight() {
     // model = model * Translate(0.5, 0, 0);
-    model = model * RotateY(-90);
+    model = RotateY(-90) * model;
 }
 
 void building1::moveForward() {
@@ -318,12 +318,12 @@ for(int i = 0; i < 16; i++) {
 }
 void building4::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
-    model = model * RotateY(90);
+    model = RotateY(90) * model;
 }
 
 void building4::moveRight() {
     // model = model * Translate(0.5, 0, 0);
-    model = model * RotateY(-90);
+    model = RotateY(-90) * model;
 }
 
 void building4::moveForward() {

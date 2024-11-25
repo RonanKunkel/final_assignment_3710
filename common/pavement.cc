@@ -66,12 +66,12 @@ void PavementX::draw() const
 
 void PavementX::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
-    model = model * RotateY(90);
+    model = RotateY(90) * model;
 }
 
 void PavementX::moveRight() {
     // model = model * Translate(0.5, 0, 0);
-    model = model * RotateY(-90);
+    model = RotateY(-90) * model;
 }
 
 void PavementX::moveForward() {
@@ -152,12 +152,12 @@ void PavementZ::draw() const
 
 void PavementZ::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
-    model = model * RotateY(90);
+    model = RotateY(90) * model;
 }
 
 void PavementZ::moveRight() {
     // model = model * Translate(0.5, 0, 0);
-    model = model * RotateY(-90);
+    model = RotateY(-90) * model;
 }
 
 void PavementZ::moveForward() {

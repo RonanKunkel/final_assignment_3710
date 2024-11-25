@@ -70,12 +70,12 @@
 
 // void Object::moveLeft() {
 //     // model = model * Translate(-0.5, 0, 0);
-//     model = model * RotateY(90);
+//     model = RotateY(90) * model;
 // }
 
 // void Object::moveRight() {
 //     // model = model * Translate(0.5, 0, 0);
-//     model = model * RotateY(-90);
+//     model = RotateY(-90) * model;
 // }
 
 // void Object::moveForward() {
