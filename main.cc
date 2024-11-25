@@ -21,6 +21,10 @@ building1 *buildingd;
 building1 *buildinge;
 building1 *buildingf;
 building1 *buildingg;
+building4 *buildingr;
+building4 *buildingro;
+building4 *buildingron;
+building4 *buildingrona;
 
 CameraGTA *cameraP;
 Camera *cameraO;
@@ -56,6 +60,10 @@ void init()
   buildinge = new building1(loc, faceColourLoc, modelLoc, vec4(5.0,0.1,5.0,1.0));
   buildingf = new building1(loc, faceColourLoc, modelLoc, vec4(5.0,0.1,3.5,1.0));
   buildingg = new building1(loc, faceColourLoc, modelLoc, vec4(5.0,0.1,2.0,1.0));
+  buildingr = new building4(loc, faceColourLoc, modelLoc, vec4(-1.0,0.1,2.0,1.0 ));
+  buildingro = new building4(loc, faceColourLoc, modelLoc, vec4(-1.0,0.1,3.5,1.0 ));
+  buildingron = new building4(loc, faceColourLoc, modelLoc, vec4(-1.0,0.1,5.0,1.0 ));
+  buildingrona = new building4(loc, faceColourLoc, modelLoc, vec4(-1.0,0.1,6.5,1.0 ));
 
 
 
@@ -116,6 +124,10 @@ void display( void )
   buildinge->draw();
   buildingf->draw();
   buildingg->draw();
+  buildingr->draw();
+  buildingro->draw();
+  buildingron->draw();
+  buildingrona->draw();
 
 
   glutSwapBuffers();
@@ -157,6 +169,10 @@ buildingd->moveLeft();
 buildinge->moveLeft();
 buildingf->moveLeft();
 buildingg->moveLeft();
+buildingr->moveLeft();
+buildingro->moveLeft();
+buildingron->moveLeft();
+buildingrona->moveLeft();
 
     break;
   case GLUT_KEY_RIGHT:
@@ -169,6 +185,10 @@ buildingd->moveRight();
 buildinge->moveRight();
 buildingf->moveRight();
 buildingg->moveRight();
+buildingr->moveRight();
+buildingro->moveRight();
+buildingron->moveRight();
+buildingrona->moveRight();
 
     break;
   case GLUT_KEY_UP:
@@ -181,6 +201,10 @@ buildingd->moveForward();
 buildinge->moveForward();
 buildingf->moveForward();
 buildingg->moveForward();
+buildingr->moveForward();
+buildingro->moveForward();
+buildingron->moveForward();
+buildingrona->moveForward();
 
     break;
   case GLUT_KEY_DOWN:
@@ -193,6 +217,10 @@ buildingd->moveBackward();
 buildinge->moveBackward();
 buildingf->moveBackward();
 buildingg->moveBackward();
+buildingr->moveBackward();
+buildingro->moveBackward();
+buildingron->moveBackward();
+buildingrona->moveBackward();
 
     break;
   // case GLUT_KEY_PAGE_UP:

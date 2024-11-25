@@ -61,10 +61,13 @@ class building4 : public Object { // Ronan
     GLfloat scale_x = 1,GLfloat scale_y = 1,GLfloat scale_z = 1);
     ~building4();
     void draw() const;
-
+    void moveLeft();
+    void moveRight();
+    void moveForward();
+    void moveBackward();
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;
-  GLuint vao[0], buffer[0];
+  GLuint vao[16], buffer[16];
 
 };
 class building5 : public Object { // Free-For-All
