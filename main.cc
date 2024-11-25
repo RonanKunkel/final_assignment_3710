@@ -8,7 +8,7 @@
 #include "CameraGTA.h"
 #include "Buildings.h"
 #include <iostream>
-
+#include "pavement.h"
 using namespace std;
 
 //----------------------------------------------------------------------------
@@ -25,6 +25,8 @@ building4 *buildingr;
 building4 *buildingro;
 building4 *buildingron;
 building4 *buildingrona;
+pavement *pavement1;
+pavement *pavement2;
 
 CameraGTA *cameraP;
 Camera *cameraO;
@@ -64,7 +66,8 @@ void init()
   buildingro = new building4(loc, faceColourLoc, modelLoc, vec4(-1.0,0.1,3.5,1.0 ));
   buildingron = new building4(loc, faceColourLoc, modelLoc, vec4(-1.0,0.1,5.0,1.0 ));
   buildingrona = new building4(loc, faceColourLoc, modelLoc, vec4(-1.0,0.1,6.5,1.0 ));
-
+pavement1 = new pavement(loc, faceColourLoc, modelLoc, pos);
+pavement2 = new pavement(loc, faceColourLoc, modelLoc, vec4(1.5,0.0,0.0,1.0));
 
 
 
@@ -128,8 +131,8 @@ void display( void )
   buildingro->draw();
   buildingron->draw();
   buildingrona->draw();
-
-
+pavement1->draw();
+pavement2->draw();
   glutSwapBuffers();
 }
 
@@ -173,6 +176,8 @@ buildingr->moveLeft();
 buildingro->moveLeft();
 buildingron->moveLeft();
 buildingrona->moveLeft();
+pavement1->moveLeft();
+pavement2->moveLeft();
 
     break;
   case GLUT_KEY_RIGHT:
@@ -189,6 +194,8 @@ buildingr->moveRight();
 buildingro->moveRight();
 buildingron->moveRight();
 buildingrona->moveRight();
+pavement1->moveRight();
+pavement2->moveRight();
 
     break;
   case GLUT_KEY_UP:
@@ -205,6 +212,8 @@ buildingr->moveForward();
 buildingro->moveForward();
 buildingron->moveForward();
 buildingrona->moveForward();
+pavement1->moveForward();
+pavement2->moveForward();
 
     break;
   case GLUT_KEY_DOWN:
@@ -221,6 +230,8 @@ buildingr->moveBackward();
 buildingro->moveBackward();
 buildingron->moveBackward();
 buildingrona->moveBackward();
+pavement1->moveBackward();
+pavement2->moveBackward();
 
     break;
   // case GLUT_KEY_PAGE_UP:
