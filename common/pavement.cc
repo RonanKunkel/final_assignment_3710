@@ -55,7 +55,7 @@ void PavementX::draw() const
 {
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
 
-  glBindVertexArray(vao[1]);
+  glBindVertexArray(vao[0]);
   glUniform4fv(face_loc, 1, vec4(0.4,0.4,0.4,1));
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[0]);
   glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
