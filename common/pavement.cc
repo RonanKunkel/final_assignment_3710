@@ -5,7 +5,7 @@ PavementX::PavementX(GLuint vertexLoc, GLuint faceLoc,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
 	     GLfloat scale_x, GLfloat scale_y, GLfloat scale_z)
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
-    model_loc{modelLoc}
+    model_loc{modelLoc}, currentdirection{direction::north}
 {
     const vec4 point[4] = {
       vec4(-0.25, 0.0001, 7.25, 1), //v0
@@ -66,21 +66,47 @@ void PavementX::draw() const
 
 void PavementX::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
-    model = RotateY(90) * model;
-}
+    model =  RotateY(-90) * model;
+    currentdirection = static_cast<direction>((currentdirection + 3) % 4);
+    }
 
 void PavementX::moveRight() {
     // model = model * Translate(0.5, 0, 0);
-    model = RotateY(-90) * model;
-}
+    model = RotateY(90) * model;
+    currentdirection = static_cast<direction>((currentdirection + 1) % 4);
+    }
 
 void PavementX::moveForward() {
-    model = model * Translate(0, 0, -0.5);
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0, 0.5);
+      break;
+    case east: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, -0.5);
+      break;
+    case west: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+  }}
 
 void PavementX::moveBackward() {
-    model = model * Translate(0, 0, 0.5);
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0.0, -0.5); 
+      break;
+    case east: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, 0.5);
+      break;
+    case west: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+  }}
 
 
 
@@ -89,7 +115,7 @@ PavementZ::PavementZ(GLuint vertexLoc, GLuint faceLoc,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
 	     GLfloat scale_x, GLfloat scale_y, GLfloat scale_z)
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
-    model_loc{modelLoc}
+    model_loc{modelLoc}, currentdirection{direction::north}
 {
     const vec4 point[4] = {
 
@@ -152,18 +178,43 @@ void PavementZ::draw() const
 
 void PavementZ::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
-    model = RotateY(90) * model;
-}
+    model = RotateY(-90) * model;
+    currentdirection = static_cast<direction>((currentdirection + 3) % 4);
+    }
 
 void PavementZ::moveRight() {
     // model = model * Translate(0.5, 0, 0);
-    model = RotateY(-90) * model;
-}
-
+    model =  RotateY(90) * model;
+    currentdirection = static_cast<direction>((currentdirection + 1) % 4);
+    }
 void PavementZ::moveForward() {
-    model = model * Translate(0, 0, -0.5);
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0, 0.5);
+      break;
+    case east: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, -0.5);
+      break;
+    case west: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+  }}
 
 void PavementZ::moveBackward() {
-    model = model * Translate(0, 0, 0.5);
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0.0, -0.5); 
+      break;
+    case east: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, 0.5);
+      break;
+    case west: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+  }}

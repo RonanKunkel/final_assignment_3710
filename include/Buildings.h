@@ -19,6 +19,8 @@ class building1 : public Object { // Maksym
     void moveRight();
     void moveForward();
     void moveBackward();
+     enum direction {north,east, south, west};
+ direction currentdirection;
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;
   GLuint vao[10], buffer[10];
@@ -33,7 +35,8 @@ class building2 : public Object { // Desmond
     GLfloat scale_x = 1,GLfloat scale_y = 1,GLfloat scale_z = 1);
     ~building2();
     void draw() const;
-
+ enum direction {north,south, east, west};
+ direction currentdirection;
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;
   GLuint vao[0], buffer[0];
@@ -46,7 +49,8 @@ class building3 : public Object { // Albert
     GLfloat scale_x = 1,GLfloat scale_y = 1,GLfloat scale_z = 1);
     ~building3();
     void draw() const;
-
+ enum direction {north,south, east, west};
+ direction currentdirection;
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;
   GLuint vao[0], buffer[0];
@@ -65,6 +69,8 @@ class building4 : public Object { // Ronan
     void moveRight();
     void moveForward();
     void moveBackward();
+     enum direction {north,east, south, west};
+ direction currentdirection;
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;
   GLuint vao[16], buffer[16];
@@ -78,7 +84,8 @@ class building5 : public Object { // Free-For-All
     GLfloat scale_x = 1,GLfloat scale_y = 1,GLfloat scale_z = 1);
     ~building5();
     void draw() const;
-
+ enum direction {north,south, east, west};
+ direction currentdirection;
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;
   GLuint vao[0], buffer[0];
@@ -93,7 +100,8 @@ public:
     GLfloat scale_x = 1,GLfloat scale_y = 1,GLfloat scale_z = 1);
     ~building6();
     void draw() const;
-
+ enum direction {north,east, south, west};
+ direction currentdirection;
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;
   GLuint vao[0], buffer[0];

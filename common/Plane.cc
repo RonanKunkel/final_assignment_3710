@@ -5,7 +5,7 @@ Plane::Plane(GLuint vertexLoc, GLuint faceLoc,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
 	     GLfloat scale_x, GLfloat scale_y, GLfloat scale_z)
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
-    model_loc{modelLoc}
+    model_loc{modelLoc}, currentdirection{direction::north}
 {
     const vec4 point[4] = {
       vec4(7.25, 0, 7.25, 1), 
@@ -66,18 +66,45 @@ void Plane::draw() const
 
 void Plane::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
-    model = RotateY(90) * model;
-}
+    if( )
+    model =  RotateY(-90) * model;
+    currentdirection = static_cast<direction>((currentdirection + 3) % 4);
+    }
 
 void Plane::moveRight() {
     // model = model * Translate(0.5, 0, 0);
-    model = RotateY(-90) * model;
-}
+    model =  RotateY(90) * model;
+    currentdirection = static_cast<direction>((currentdirection + 1) % 4);
+    }
 
 void Plane::moveForward() {
-    model = model * Translate(0, 0, -0.5);
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0, 0.5);
+      break;
+    case east: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, -0.5);
+      break;
+    case west: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+  }}
 
 void Plane::moveBackward() {
-    model = model * Translate(0, 0, 0.5);
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0.0, -0.5); 
+      break;
+    case east: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, 0.5);
+      break;
+    case west: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+  }}

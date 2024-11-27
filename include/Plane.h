@@ -16,6 +16,8 @@ class Plane : public Object {
     void moveForward();
     void moveBackward();
  private:
+ enum direction {north,east, south, west};
+ direction currentdirection;
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;
   GLuint vao[1], buffer[1];

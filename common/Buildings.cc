@@ -7,7 +7,7 @@ building1::building1(GLuint vertexLoc, GLuint faceLoc,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
 	     GLfloat scale_x, GLfloat scale_y, GLfloat scale_z)
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
-    model_loc{modelLoc}
+    model_loc{modelLoc}, currentdirection{direction::north}
 {
     const vec4 point[10] = {
       vec4(-0.35, 0, 0.35, 1),   // v0
@@ -124,21 +124,49 @@ for(int i = 0; i < 10; i++) {
 }
 void building1::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
-    model = RotateY(90) * model;
+    model = RotateY(-90) * model;
+        currentdirection = static_cast<direction>((currentdirection + 3) % 4);
+
 }
 
 void building1::moveRight() {
     // model = model * Translate(0.5, 0, 0);
-    model = RotateY(-90) * model;
+    model = RotateY(90) * model;
+        currentdirection = static_cast<direction>((currentdirection + 1) % 4);
+
 }
 
 void building1::moveForward() {
-    model = model * Translate(0, 0, -0.5);
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0, 0.5);
+      break;
+    case east: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, -0.5);
+      break;
+    case west: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+  }}
 
 void building1::moveBackward() {
-    model = model * Translate(0, 0, 0.5);
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0.0, -0.5); 
+      break;
+    case east: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, 0.5);
+      break;
+    case west: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+  }}
 
 //=============================
 
@@ -147,7 +175,7 @@ building4::building4(GLuint vertexLoc, GLuint faceLoc,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
 	     GLfloat scale_x, GLfloat scale_y, GLfloat scale_z)
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
-    model_loc{modelLoc}
+    model_loc{modelLoc}, currentdirection{direction::north}
 {
     const vec4 point[22] = {
 //====================
@@ -318,18 +346,44 @@ for(int i = 0; i < 16; i++) {
 }
 void building4::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
-    model = RotateY(90) * model;
-}
+    model =  RotateY(-90) * model;
+    currentdirection = static_cast<direction>((currentdirection + 3) % 4);
+    }
 
 void building4::moveRight() {
     // model = model * Translate(0.5, 0, 0);
-    model = RotateY(-90) * model;
-}
+    model =  RotateY(90) * model;
+    currentdirection = static_cast<direction>((currentdirection + 1) % 4);
+    }
 
 void building4::moveForward() {
-    model = model * Translate(0, 0, -0.5);
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0, 0.5);
+      break;
+    case east: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, -0.5);
+      break;
+    case west: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+  }}
 
 void building4::moveBackward() {
-    model = model * Translate(0, 0, 0.5);
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0.0, -0.5); 
+      break;
+    case east: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, 0.5);
+      break;
+    case west: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+  }}
