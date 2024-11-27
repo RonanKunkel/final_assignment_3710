@@ -47,9 +47,9 @@ void init()
   car = new Car(loc, faceColourLoc, modelLoc, vec4(0.0, 0.0, 0.0, 1.0));
 
   vec4 buildingPositions1[8] = {
-    vec4(2.25, 0.1, 2.15, 1.0), vec4(2.25, 0.1, 3.65, 1.0), vec4(2.25, 0.1, 5.15, 1.0),
-    vec4(2.25, 0.1, 6.65, 1.0), vec4(5.25, 0.1, 6.65, 1.0), vec4(5.25, 0.1, 5.15, 1.0),
-    vec4(5.25, 0.1, 3.65, 1.0), vec4(5.25, 0.1, 2.15, 1.0)
+    vec4(2.25, 0.0001, 2.15, 1.0), vec4(2.25, 0.0001, 3.65, 1.0), vec4(2.25, 0.0001, 5.15, 1.0),
+    vec4(2.25, 0.0001, 6.65, 1.0), vec4(5.25, 0.0001, 6.65, 1.0), vec4(5.25, 0.0001, 5.15, 1.0),
+    vec4(5.25, 0.0001, 3.65, 1.0), vec4(5.25, 0.0001, 2.15, 1.0)
 
   };
 
@@ -71,8 +71,8 @@ vec4 PavementpositonZ[9]={
   }
 
   vec4 buildingPositions4[4] = {
-    vec4(-0.75, 0.1, 2.15, 1.0), vec4(-0.75, 0.1, 3.65, 1.0),
-    vec4(-0.75, 0.1, 5.15, 1.0), vec4(-0.75, 0.1, 6.65, 1.0)
+    vec4(-0.75, 0.0001, 2.15, 1.0), vec4(-0.75, 0.0001, 3.65, 1.0),
+    vec4(-0.75, 0.0001, 5.15, 1.0), vec4(-0.75, 0.0001, 6.65, 1.0)
   };
 
   for (int i = 0; i < 4; ++i) {
@@ -182,7 +182,7 @@ int main( int argc, char **argv )
 {
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-  glutInitWindowSize(1024, 1024);
+  glutInitWindowSize(512, 512);
 
   // If you are using freeglut, the next two lines will check if 
   // the code is truly 3.2. Otherwise, comment them out

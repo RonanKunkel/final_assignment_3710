@@ -18,9 +18,9 @@ Car::Car(GLuint vertexLoc, GLuint faceLoc, GLuint modelLoc,
         };
 
         const vec4 colors[5] = {
-vec4(0.8, 0.498039, 0.196078, 1.0), // Front Face Gold
+vec4(0.137255, 0.419608, 0.556863, 1.0), // Front Steel Blue
 vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
-vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
+vec4(0.8, 0.498039, 0.196078, 1.0), // Back Face Gold
 vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
 vec4(0.137255, 0.419608, 0.556863, 1.0) // Steel Blue
         };
@@ -71,9 +71,9 @@ void Car::draw() const {
         glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
 
         const vec4 colors[5] = {
-vec4(0.8, 0.498039, 0.196078, 1.0), // Steel Blue
+vec4(0.137255, 0.419608, 0.556863, 1.0), // Front Steel Blue
 vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
-vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
+vec4(0.8, 0.498039, 0.196078, 1.0), // Back Face Gold
 vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
 vec4(0.137255, 0.419608, 0.556863, 1.0) // Steel Blue
         };

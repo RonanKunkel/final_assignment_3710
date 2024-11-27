@@ -56,7 +56,7 @@ void Plane::draw() const
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
 
   glBindVertexArray(vao[1]);
-  glUniform4fv(face_loc, 1, vec4(0,1,0,1));
+  glUniform4fv(face_loc, 1, vec4(0.137255, 0.556863, 0.137255, 1.0));
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[0]);
   glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
 
