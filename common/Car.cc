@@ -19,7 +19,7 @@ Car::Car(GLuint vertexLoc, GLuint faceLoc, GLuint modelLoc,
         };
 
         const vec4 colors[5] = {
-vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
+vec4(0.8, 0.498039, 0.196078, 1.0), // Front Face Gold
 vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
 vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
 vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
@@ -67,27 +67,12 @@ Car::~Car()
     glDeleteBuffers(5, buffer);
 }
 
-    void Car::driveForward() {
-        model = model * Translate(0, 0, -0.5);
-    }
 
-    void Car::driveBackward() {
-        model = model * Translate(0, 0, 0.5);
-    }
-
-    void Car::turnLeft() {
-        model = RotateY(90) * model;
-    }
-
-    void Car::turnRight() {
-        model = RotateY(-90) * model;
-    }
-
-    void Car::draw() const {
+void Car::draw() const {
         glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
 
         const vec4 colors[5] = {
-vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
+vec4(0.8, 0.498039, 0.196078, 1.0), // Steel Blue
 vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
 vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
 vec4(0.137255, 0.419608, 0.556863, 1.0), // Steel Blue
@@ -101,4 +86,8 @@ for(int i = 0; i < 5; i++) {
   // glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
+}
+
+vec4 Car::getPosition() const {
+    return vec4(model[3][0], model[3][1], model[3][2], 1.0);
 }

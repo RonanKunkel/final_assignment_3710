@@ -14,10 +14,8 @@ class Car : public Object {
 
     ~Car();
 
-    void driveForward();
-    void driveBackward();
-    void turnLeft();
-    void turnRight();
+    vec4 getPosition() const;
+
     void draw() const;
 
     mat4 model;
