@@ -88,7 +88,7 @@ vec4 PavementpositonZ[9]={
   }
 
 
-  glClearColor( 0.0, 0.0, 0.0, 1.0 ); // black background
+  glClearColor( 0.74902, 0.847059, 0.847059, 1.0 ); // black background
   glEnable(GL_DEPTH_TEST);
   glClearDepth(1.0);
   glDepthFunc(GL_LESS);
@@ -147,6 +147,8 @@ void cameraAndMovement(int key, int x, int y) {
 
       break;
     case GLUT_KEY_UP:
+      if (plane->currentPosition.z > 6.50) {
+      } else {
       plane->moveForward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveForward();
       for (int i = 0; i < 4; ++i) buildings4[i]->moveForward();
@@ -154,14 +156,17 @@ void cameraAndMovement(int key, int x, int y) {
       for (int i = 0; i < 9; ++i) pavementsZ[i]->moveForward();
 
       break;
+      }
     case GLUT_KEY_DOWN:
+      if (plane->currentPosition.z < -6.50) {
+      } else {
       plane->moveBackward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveBackward();
       for (int i = 0; i < 4; ++i) buildings4[i]->moveBackward();
       for (int i = 0; i < 9; ++i) pavementsX[i]->moveBackward();
        for (int i = 0; i < 9; ++i) pavementsZ[i]->moveBackward();
-
       break;
+      }
   }
   
   currentCamera->sendToShader();
