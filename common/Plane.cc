@@ -66,7 +66,6 @@ void Plane::draw() const
 
 void Plane::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
-    if( )
     model =  RotateY(-90) * model;
     currentdirection = static_cast<direction>((currentdirection + 3) % 4);
     }
