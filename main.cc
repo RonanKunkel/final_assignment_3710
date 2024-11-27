@@ -147,7 +147,8 @@ void cameraAndMovement(int key, int x, int y) {
 
       break;
     case GLUT_KEY_UP:
-      if (plane->currentPosition.z > 6.50) {
+      if (plane->getDirection() == 0 && plane->currentPosition.z >= 7) {
+      } else if (plane->getDirection() == 2 && plane->currentPosition.z <= -7) {
       } else {
       plane->moveForward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveForward();
@@ -158,7 +159,8 @@ void cameraAndMovement(int key, int x, int y) {
       break;
       }
     case GLUT_KEY_DOWN:
-      if (plane->currentPosition.z < -6.50) {
+      if (plane->getDirection() == 0 && plane->currentPosition.z <= -7) {
+      } else if (plane->getDirection() == 2 && plane->currentPosition.z >= 7) {
       } else {
       plane->moveBackward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveBackward();
@@ -170,6 +172,8 @@ void cameraAndMovement(int key, int x, int y) {
   }
   
   currentCamera->sendToShader();
+  std::cout << plane->currentPosition << std::endl;
+  std::cout << "Direction: " << plane->getDirection() << std::endl;
   glutPostRedisplay();
 }
 

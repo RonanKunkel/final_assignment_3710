@@ -15,7 +15,7 @@ class Plane : public Object {
     void moveRight();
     void moveForward();
     void moveBackward();
-   //  direction getDirection();
+    int getDirection();
 
     vec4 currentPosition;
  private:

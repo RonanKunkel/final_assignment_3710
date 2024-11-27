@@ -84,6 +84,7 @@ void Plane::moveForward() {
       break;
     case east: 
       model = model * Translate(-0.5, 0.0, 0.0);
+      currentPosition = currentPosition + vec4(-0.5,0,0,0);
       break;
     case south: 
       model = model * Translate(0.0, 0.0, -0.5);
@@ -91,6 +92,7 @@ void Plane::moveForward() {
       break;
     case west: 
       model = model * Translate(0.5, 0.0, 0.0);
+      currentPosition = currentPosition + vec4(0.5,0,0,0);
       break;
   }}
 
@@ -112,6 +114,6 @@ void Plane::moveBackward() {
       break;
   }}
 
-// direction Plane::getDirection() {
-//   return currentdirection;
-// }
+int Plane::getDirection() {
+  return currentdirection;
+}
