@@ -17,6 +17,7 @@ Camera *currentCamera;
 Plane *plane;
 Car *car;
 building1 *buildings1[8];
+building2 *buildings2[1];
 building4 *buildings4[4];
 PavementX *pavementsX[9];
 PavementZ *pavementsZ[9];
@@ -51,24 +52,32 @@ void init()
     vec4(2.25, 0.0001, 2.15, 1.0), vec4(2.25, 0.0001, 3.65, 1.0), vec4(2.25, 0.0001, 5.15, 1.0),
     vec4(2.25, 0.0001, 6.65, 1.0), vec4(5.25, 0.0001, 6.65, 1.0), vec4(5.25, 0.0001, 5.15, 1.0),
     vec4(5.25, 0.0001, 3.65, 1.0), vec4(5.25, 0.0001, 2.15, 1.0)
+  };
+
+  vec4 buildingPosition2[1] = {
+    vec4(-0.75, 0.0001, -0.75, 1.0)
+  };
+
+  vec4 PavementpositonX[9]={
+     vec4(-6.0, 0.0001, 0.0, 1.0), vec4(-4.5, 0.0001, 0.0, 1.0), vec4(-3.0, 0.0001, 0.0, 1.0),
+      vec4(-1.5, 0.0001, 0.0, 1.0), vec4(0.0, 0.0001, 0.0, 1.0), vec4(1.5, 0.0001, 0.0, 1.0),
+      vec4(3.0, 0.0001, 0.0, 1.0), vec4(4.5, 0.0001, 0.0, 1.0), vec4(6.0,0.0001,0.0,1.0)
+
+  };
+  vec4 PavementpositonZ[9]={
+     vec4(0.0, 0.0001, -6.0, 1.0), vec4(0.0, 0.0001, -4.5, 1.0), vec4(0.0, 0.0001, -3.0, 1.0),
+      vec4(0.0, 0.0001, -1.5, 1.0), vec4(0.0, 0.0001, 0.0, 1.0), vec4(0.0, 0.0001, 1.5, 1.0),
+      vec4(0.0, 0.0001, 3.0, 1.0), vec4(0.0, 0.0001, 4.5, 1.0), vec4(0.0,0.0001,6.0,1.0)
 
   };
 
-vec4 PavementpositonX[9]={
-   vec4(-6.0, 0.0001, 0.0, 1.0), vec4(-4.5, 0.0001, 0.0, 1.0), vec4(-3.0, 0.0001, 0.0, 1.0),
-    vec4(-1.5, 0.0001, 0.0, 1.0), vec4(0.0, 0.0001, 0.0, 1.0), vec4(1.5, 0.0001, 0.0, 1.0),
-    vec4(3.0, 0.0001, 0.0, 1.0), vec4(4.5, 0.0001, 0.0, 1.0), vec4(6.0,0.0001,0.0,1.0)
-
-};
-vec4 PavementpositonZ[9]={
-   vec4(0.0, 0.0001, -6.0, 1.0), vec4(0.0, 0.0001, -4.5, 1.0), vec4(0.0, 0.0001, -3.0, 1.0),
-    vec4(0.0, 0.0001, -1.5, 1.0), vec4(0.0, 0.0001, 0.0, 1.0), vec4(0.0, 0.0001, 1.5, 1.0),
-    vec4(0.0, 0.0001, 3.0, 1.0), vec4(0.0, 0.0001, 4.5, 1.0), vec4(0.0,0.0001,6.0,1.0)
-
-};
-
   for (int i = 0; i < 8; ++i) {
     buildings1[i] = new building1(loc, faceColourLoc, modelLoc, buildingPositions1[i]);
+  }
+
+  // building2
+  for (int i = 0; i < 1; ++i) {
+    buildings2[0] = new building2(loc, faceColourLoc, modelLoc, buildingPosition2[i]);
   }
 
   vec4 buildingPositions4[4] = {
@@ -106,6 +115,8 @@ void display(void)
   plane->draw();
   car->draw();
   for (int i = 0; i < 8; ++i) buildings1[i]->draw();
+  // for (int i = 0; i < 1; ++i) buildings2[i]->draw();
+  buildings2[0]->draw();
   for (int i = 0; i < 4; ++i) buildings4[i]->draw();
   for (int i = 0; i < 9; ++i) pavementsX[i]->draw();
   for (int i = 0; i < 9; ++i) pavementsZ[i]->draw();
@@ -138,6 +149,7 @@ void cameraAndMovement(int key, int x, int y) {
       if (plane->currentPosition.x == 0.0 && plane->currentPosition.z == 0.0 || modXVal == 0 && modZVal == 0) {
         plane->moveLeft();
         for (int i = 0; i < 8; ++i) buildings1[i]->moveLeft();
+        for (int i = 0; i < 1; ++i) buildings2[i]->moveLeft();
         for (int i = 0; i < 4; ++i) buildings4[i]->moveLeft();
         for (int i = 0; i < 9; ++i) pavementsX[i]->moveLeft();
         for (int i = 0; i < 9; ++i) pavementsZ[i]->moveLeft();
@@ -150,6 +162,7 @@ void cameraAndMovement(int key, int x, int y) {
       if (plane->currentPosition.x == 0.0 && plane->currentPosition.z == 0.0 || modXVal == 0 && modZVal == 0) {
         plane->moveRight();
         for (int i = 0; i < 8; ++i) buildings1[i]->moveRight();
+        for (int i = 0; i < 1; ++i) buildings2[i]->moveRight();
         for (int i = 0; i < 4; ++i) buildings4[i]->moveRight();
         for (int i = 0; i < 9; ++i) pavementsX[i]->moveRight();
         for (int i = 0; i < 9; ++i) pavementsZ[i]->moveRight();
@@ -165,6 +178,7 @@ void cameraAndMovement(int key, int x, int y) {
       } else {
       plane->moveForward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveForward();
+      for (int i = 0; i < 1; ++i) buildings2[i]->moveForward();
       for (int i = 0; i < 4; ++i) buildings4[i]->moveForward();
       for (int i = 0; i < 9; ++i) pavementsX[i]->moveForward();
       for (int i = 0; i < 9; ++i) pavementsZ[i]->moveForward();
@@ -179,6 +193,7 @@ void cameraAndMovement(int key, int x, int y) {
       } else {
       plane->moveBackward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveBackward();
+      for (int i = 0; i < 1; ++i) buildings2[i]->moveBackward();
       for (int i = 0; i < 4; ++i) buildings4[i]->moveBackward();
       for (int i = 0; i < 9; ++i) pavementsX[i]->moveBackward();
        for (int i = 0; i < 9; ++i) pavementsZ[i]->moveBackward();
@@ -187,6 +202,10 @@ void cameraAndMovement(int key, int x, int y) {
   }
   
   currentCamera->sendToShader();
+  // Used for debugging
+  std::cout << "Direction:" << plane->currentPosition << std::endl;
+  std::cout << "Direction:" << plane->getDirection() << std::endl;
+
   glutPostRedisplay();
 }
 

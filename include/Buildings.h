@@ -29,17 +29,20 @@ class building1 : public Object { // Maksym
 
 class building2 : public Object { // Desmond
  public:
- 
     building2(GLuint vertexloc, GLuint faceloc, GLuint modeloc,
     vec4 pos, GLfloat theta_x = 0, GLfloat theta_y = 0,GLfloat theta_z = 0,
     GLfloat scale_x = 1,GLfloat scale_y = 1,GLfloat scale_z = 1);
     ~building2();
     void draw() const;
- enum direction {north,south, east, west};
- direction currentdirection;
-  mat4 model;
-  GLuint vertex_loc, face_loc, model_loc;
-  GLuint vao[0], buffer[0];
+    void moveLeft();
+    void moveRight();
+    void moveForward();
+    void moveBackward();
+    enum direction {north, south, east, west};
+    direction currentdirection;
+    mat4 model;
+    GLuint vertex_loc, face_loc, model_loc;
+    GLuint vao[6], buffer[6];
 };
 class building3 : public Object { // Albert
  public:
