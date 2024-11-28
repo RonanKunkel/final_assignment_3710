@@ -9,8 +9,8 @@ using namespace std;
 class Car : public Object {
  public:
     Car(GLuint vertexloc, GLuint faceloc, GLuint modeloc,
-    vec4 pos, GLfloat theta_x = 0, GLfloat theta_y = 0,GLfloat theta_z = 0,
-    GLfloat scale_x = 1,GLfloat scale_y = 1,GLfloat scale_z = 1);
+    vec4 pos = vec4(0.0, 0.0, 0.0, 1.0), GLfloat theta_x = 0, GLfloat theta_y = 0,GLfloat theta_z = 0,
+    GLfloat scale_x = 0.02, GLfloat scale_y = 0.02, GLfloat scale_z = 0.02);
 
     ~Car();
 
@@ -20,7 +20,7 @@ class Car : public Object {
 
     mat4 model;
     GLuint vertex_loc, face_loc, model_loc;
-    GLuint vao[5], buffer[5];
+    GLuint vao[10], buffer[10];
 };
 
 #endif
