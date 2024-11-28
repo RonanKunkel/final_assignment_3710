@@ -5,7 +5,7 @@ Plane::Plane(GLuint vertexLoc, GLuint faceLoc,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
 	     GLfloat scale_x, GLfloat scale_y, GLfloat scale_z)
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
-    model_loc{modelLoc}, currentdirection{direction::north}
+    model_loc{modelLoc}, currentdirection{direction::north}, currentPosition{pos}
 {
     const vec4 point[4] = {
       vec4(7.25, 0, 7.25, 1), 
@@ -80,15 +80,19 @@ void Plane::moveForward() {
   switch(currentdirection){
     case north: 
       model = model * Translate(0.0, 0, 0.5);
+      currentPosition = currentPosition + vec4(0,0,0.5,0);
       break;
     case east: 
       model = model * Translate(-0.5, 0.0, 0.0);
+      currentPosition = currentPosition + vec4(0.5,0,0,0);
       break;
     case south: 
       model = model * Translate(0.0, 0.0, -0.5);
+      currentPosition = currentPosition + vec4(0,0,-0.5,0);
       break;
     case west: 
       model = model * Translate(0.5, 0.0, 0.0);
+      currentPosition = currentPosition + vec4(-0.5,0,0,0);
       break;
   }}
 
@@ -96,14 +100,22 @@ void Plane::moveBackward() {
   switch(currentdirection){
     case north: 
       model = model * Translate(0.0, 0.0, -0.5); 
+      currentPosition = currentPosition + vec4(0,0,-0.5,0);
       break;
     case east: 
       model = model * Translate(0.5, 0.0, 0.0);
+      currentPosition = currentPosition + vec4(-0.5,0,0,0);
       break;
     case south: 
       model = model * Translate(0.0, 0.0, 0.5);
+      currentPosition = currentPosition + vec4(0,0,0.5,0);
       break;
     case west: 
       model = model * Translate(-0.5, 0.0, 0.0);
+      currentPosition = currentPosition + vec4(0.5,0,0,0);
       break;
   }}
+
+int Plane::getDirection() {
+  return currentdirection;
+}

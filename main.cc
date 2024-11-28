@@ -1,4 +1,5 @@
 #include <Angel.h>
+#include <cmath>
 #include "Object.h"
 #include "Wheels.h"
 #include "Traffic_Light.h"
@@ -20,7 +21,7 @@ building4 *buildings4[4];
 PavementX *pavementsX[9];
 PavementZ *pavementsZ[9];
 
-GLfloat camera_theta = M_PI/2, camera_radius = 1.0;
+GLfloat camera_theta = M_PI/2, camera_radius = 1.0, modValue = 1.5;
 
 void init()
 {
@@ -88,7 +89,7 @@ vec4 PavementpositonZ[9]={
   }
 
 
-  glClearColor( 0.0, 0.0, 0.0, 1.0 ); // black background
+  glClearColor( 0.74902, 0.847059, 0.847059, 1.0 ); // black background
   glEnable(GL_DEPTH_TEST);
   glClearDepth(1.0);
   glDepthFunc(GL_LESS);
@@ -116,6 +117,9 @@ void display(void)
 
 void cameraAndMovement(int key, int x, int y) {
   vec4 carPosition = car->getPosition();
+  // Mod values for staying on the roads
+  GLfloat modXVal = std::fmod(plane->currentPosition.x, 1.5);
+  GLfloat modZVal = std::fmod(plane->currentPosition.z, 1.5);
 
   switch (key) {
     case GLUT_KEY_F1:
@@ -131,22 +135,34 @@ void cameraAndMovement(int key, int x, int y) {
 
     switch (key) {
     case GLUT_KEY_LEFT:
-      plane->moveLeft();
-      for (int i = 0; i < 8; ++i) buildings1[i]->moveLeft();
-      for (int i = 0; i < 4; ++i) buildings4[i]->moveLeft();
-      for (int i = 0; i < 9; ++i) pavementsX[i]->moveLeft();
-      for (int i = 0; i < 9; ++i) pavementsZ[i]->moveLeft();
+      if (plane->currentPosition.x == 0.0 && plane->currentPosition.z == 0.0 || modXVal == 0 && modZVal == 0) {
+        plane->moveLeft();
+        for (int i = 0; i < 8; ++i) buildings1[i]->moveLeft();
+        for (int i = 0; i < 4; ++i) buildings4[i]->moveLeft();
+        for (int i = 0; i < 9; ++i) pavementsX[i]->moveLeft();
+        for (int i = 0; i < 9; ++i) pavementsZ[i]->moveLeft();
+        break;
+      } else {
+        break;
+      }
 
-      break;
     case GLUT_KEY_RIGHT:
-      plane->moveRight();
-      for (int i = 0; i < 8; ++i) buildings1[i]->moveRight();
-      for (int i = 0; i < 4; ++i) buildings4[i]->moveRight();
-      for (int i = 0; i < 9; ++i) pavementsX[i]->moveRight();
-      for (int i = 0; i < 9; ++i) pavementsZ[i]->moveRight();
-
-      break;
+      if (plane->currentPosition.x == 0.0 && plane->currentPosition.z == 0.0 || modXVal == 0 && modZVal == 0) {
+        plane->moveRight();
+        for (int i = 0; i < 8; ++i) buildings1[i]->moveRight();
+        for (int i = 0; i < 4; ++i) buildings4[i]->moveRight();
+        for (int i = 0; i < 9; ++i) pavementsX[i]->moveRight();
+        for (int i = 0; i < 9; ++i) pavementsZ[i]->moveRight();
+        break;
+      } else {
+        break;
+      }
     case GLUT_KEY_UP:
+      if (plane->getDirection() == 0 && plane->currentPosition.z >= 7) {
+      } else if (plane->getDirection() == 2 && plane->currentPosition.z <= -7) {
+      } else if (plane->getDirection() == 1 && plane->currentPosition.x >= 7){
+      } else if (plane->getDirection() == 3 && plane->currentPosition.x <= -7){
+      } else {
       plane->moveForward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveForward();
       for (int i = 0; i < 4; ++i) buildings4[i]->moveForward();
@@ -154,14 +170,20 @@ void cameraAndMovement(int key, int x, int y) {
       for (int i = 0; i < 9; ++i) pavementsZ[i]->moveForward();
 
       break;
+      }
     case GLUT_KEY_DOWN:
+      if (plane->getDirection() == 0 && plane->currentPosition.z <= -7) {
+      } else if (plane->getDirection() == 2 && plane->currentPosition.z >= 7) {
+      } else if (plane->getDirection() == 1 && plane->currentPosition.x <= -7){
+      } else if (plane->getDirection() == 3 && plane->currentPosition.x >= 7){
+      } else {
       plane->moveBackward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveBackward();
       for (int i = 0; i < 4; ++i) buildings4[i]->moveBackward();
       for (int i = 0; i < 9; ++i) pavementsX[i]->moveBackward();
        for (int i = 0; i < 9; ++i) pavementsZ[i]->moveBackward();
-
       break;
+      }
   }
   
   currentCamera->sendToShader();
