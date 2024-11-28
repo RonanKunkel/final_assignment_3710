@@ -79,5 +79,3 @@ void Camera::setSideView(vec4 car_position) {
   vec4 up = vec4(0.0, 1.0, 0.0, 0.0);
   setView(eye, at, up);
 }
-
-
