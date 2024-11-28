@@ -9,7 +9,7 @@ using namespace std;
 class Car : public Object {
  public:
     Car(GLuint vertexloc, GLuint faceloc, GLuint modeloc,
-    vec4 pos = vec4(0.0, 0.0, 0.0, 1.0), GLfloat theta_x = 0, GLfloat theta_y = 0,GLfloat theta_z = 0,
+    vec4 pos, GLfloat theta_x = 0, GLfloat theta_y = 0,GLfloat theta_z = 0,
     GLfloat scale_x = 0.02, GLfloat scale_y = 0.02, GLfloat scale_z = 0.02);
 
     ~Car();
