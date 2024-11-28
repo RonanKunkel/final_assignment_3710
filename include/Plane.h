@@ -15,6 +15,9 @@ class Plane : public Object {
     void moveRight();
     void moveForward();
     void moveBackward();
+    int getDirection();
+
+    vec4 currentPosition;
  private:
  enum direction {north,east, south, west};
  direction currentdirection;
