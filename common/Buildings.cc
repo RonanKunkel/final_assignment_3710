@@ -20,19 +20,6 @@ building1::building1(GLuint vertexLoc, GLuint faceLoc,
       vec4 (0,2,0.35,1),   //v8
       vec4 (0,2,-0.35,1)   //v9
     };
-    
-    const vec4 colors[10] = {
-      vec4(0.58, 0.29, 0.18, 1.0), //wood
-      vec4(0.58, 0.29, 0.18, 1.0),//wood
-      vec4(0.58, 0.29, 0.18, 1.0),//wood
-      vec4(0.58, 0.29, 0.18, 1.0),//wood
-      vec4(0.58, 0.29, 0.18, 1.0),//wood
-      vec4(0.58, 0.29, 0.18, 1.0),//wood
-      vec4(0.58, 0.29, 0.18, 1.0),//wood
-      vec4(0.58, 0.29, 0.18, 1.0),//wood
-      vec4(0.4, 0.4, 0.4, 1.0), //grey
-      vec4(0.4, 0.4, 0.4, 1.0) //grey
-    };
 
     const int face[10][4] = {
       {0,1,5,4}, // front
@@ -85,18 +72,18 @@ void building1::draw() const
 {
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
   
-  const vec4 colors[10] = {
-    vec4(0.58, 0.29, 0.18, 1.0), //wood
-    vec4(0.58, 0.29, 0.18, 1.0),//wood
-    vec4(0.58, 0.29, 0.18, 1.0),//wood
-    vec4(0.58, 0.29, 0.18, 1.0),//wood
-    vec4(0.58, 0.29, 0.18, 1.0),//wood
-    vec4(0.58, 0.29, 0.18, 1.0),//wood
-    vec4(0.58, 0.29, 0.18, 1.0),//wood
-    vec4(0.58, 0.29, 0.18, 1.0),//wood
-    vec4(0.4, 0.4, 0.4, 1.0), //grey
-    vec4(0.4, 0.4, 0.4, 1.0) //grey
-  };
+    const vec4 colors[10] = {
+      vec4(0.58, 0.29, 0.18, 1.0), //wood
+      vec4(0.58, 0.29, 0.18, 1.0),//wood
+      vec4(0.58, 0.29, 0.18, 1.0),//wood
+      vec4(0.58, 0.29, 0.18, 1.0),//wood
+      vec4(0.58, 0.29, 0.18, 1.0),//wood
+      vec4(0.58, 0.29, 0.18, 1.0),//wood
+      vec4(0.58, 0.29, 0.18, 1.0),//wood
+      vec4(0.58, 0.29, 0.18, 1.0),//wood
+      vec4(0.309804, 0.309804, 0.184314, 1.0), //dark olive
+      vec4(0.309804, 0.309804, 0.184314, 1.0) //dark olive
+    };
 
 for(int i = 0; i < 10; i++) {
   glBindVertexArray(vao[i]);
@@ -245,13 +232,11 @@ void building2::draw() const
 void building2::moveLeft() {
     model = RotateY(-90) * model;
         currentdirection = static_cast<direction>((currentdirection + 3) % 4);
-
 }
 
 void building2::moveRight() {
     model = RotateY(90) * model;
         currentdirection = static_cast<direction>((currentdirection + 1) % 4);
-
 }
 
 void building2::moveForward() {
@@ -322,29 +307,24 @@ building3::building3(GLuint vertexLoc, GLuint faceLoc,
       vec4(-0.4/3,3.0/3,-0.5/3,1), //15
       //face2
       vec4(-0.5/3,0,-0.4/3,1), //16
-      vec4(-0.5/3,3.0/3,-0.4/3,1) //17
-
-
-
-    
-        
+      vec4(-0.5/3,3.0/3,-0.4/3,1) //17        
     };
     
     
     const vec4 colors[13] = {
-vec4(0.8,0.49,0.19,1), //gold 
-vec4(0.8,0.49,0.19,1),
-vec4(0.8,0.49,0.19,1),
-vec4(0.8,0.49,0.19,1),
-vec4(0.8,0.49,0.19,1),
-vec4(0.8,0.49,0.19,1),
-vec4(0.8,0.49,0.19,1),
-vec4(0.8,0.49,0.19,1),
-vec4(0.8,0.49,0.19,1),
-vec4(0.8,0.49,0.19,1),
-vec4(0.8,0.49,0.19,1),
-vec4(0.8,0.49,0.19,1),
-vec4(0.8,0.49,0.19,1)
+      vec4(0.8,0.49,0.19,1), //gold 
+      vec4(0.8,0.49,0.19,1),
+      vec4(0.8,0.49,0.19,1),
+      vec4(0.8,0.49,0.19,1),
+      vec4(0.8,0.49,0.19,1),
+      vec4(0.8,0.49,0.19,1),
+      vec4(0.8,0.49,0.19,1),
+      vec4(0.8,0.49,0.19,1),
+      vec4(0.8,0.49,0.19,1),
+      vec4(0.8,0.49,0.19,1),
+      vec4(0.8,0.49,0.19,1),
+      vec4(0.8,0.49,0.19,1),
+      vec4(0.8,0.49,0.19,1)
     };
 
     const int face[13][4] = {
@@ -386,14 +366,6 @@ vec4(0.8,0.49,0.19,1)
         for (int j = 0; j < 4; j++) {
             A[j] = point[face[i][j]];
          }
-      // vec4 A[4];
-      // int size = 0;
-      // for (int j = 0; j < 4; j++) {
-      //   if (face[i][j] >= 0) {
-	    //     A[size++] = point[face[i][j]];
-      //   }
-      
-     
      
       glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(vec4), A, GL_STATIC_DRAW);
 

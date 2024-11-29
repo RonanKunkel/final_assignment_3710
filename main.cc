@@ -52,13 +52,13 @@ void init()
   plane = new Plane(loc, faceColourLoc, modelLoc, vec4(0.0, 0.0, 0.0, 1.0));
   car = new Car(loc, faceColourLoc, modelLoc, vec4(0.0, 0.0, 0.0, 1.0), 0, 0, 0, 0.02, 0.02, 0.02);
 
-vec4 lightposition[5] = {
-vec4(1.5, 0.0001, 1.5, 1.0),
-vec4(3.0, 0.0001, 1.5, 1.0),
-vec4(4.5, 0.0001, 1.5, 1.0),
-vec4(6.0, 0.0001, 1.5, 1.0),
-vec4(1.5, 0.0001, 3.0, 1.0),
-};
+  vec4 lightposition[5] = {
+    vec4(0.35, 0.0001, -0.35, 1.0),
+    vec4(-0.35, 0.0001, 0.35, 1.0),
+    vec4(3.35, 0.0001, 3.35, 1.0),
+    vec4(4.15, 0.0001, 4.85, 1.0),
+    vec4(-3.35, 0.0001, 0.35, 1.0)
+  };
 
   for (int i = 0; i < 5; ++i) {
     light[i] = new Light(loc, faceColourLoc, modelLoc, lightposition[i]);
