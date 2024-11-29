@@ -286,44 +286,43 @@ void building2::moveBackward() {
       break;
   }}
   //====================================================
-
 building3::building3(GLuint vertexLoc, GLuint faceLoc,
 	     GLuint modelLoc, vec4 pos,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
 	     GLfloat scale_x, GLfloat scale_y, GLfloat scale_z)
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
-    model_loc{modelLoc}
+    model_loc{modelLoc}, currentdirection{direction::north}
 {
     const vec4 point[18] = {
       //building 1 
       //face 1 
-      vec4(0.05, 0, 0.5, 1), //v0
-      vec4(0.05, 0, 0, 1), //v1 
-      vec4(0.05, 3, 0, 1), //v2
-      vec4(0.05, 3, 0.5, 1), //v3 
+      vec4(0.05/3, 0, 0.5/3, 1), //v0
+      vec4(0.05/3, 0, 0, 1), //v1 
+      vec4(0.05/3, 3.0/3, 0, 1), //v2
+      vec4(0.05/3, 3.0/3, 0.5/3, 1), //v3 
       //face 2 
-      vec4(-0.05,0,0.5,1), //v4
-      vec4(-0.05,3,0.5,1), //v5  
-      vec4(-0.05,3,0,1), //v6 
-      vec4(-0.05,0,0,1), //7 
+      vec4(-0.05/3,0,0.5/3,1), //v4
+      vec4(-0.05/3,3.0/3,0.5/3,1), //v5  
+      vec4(-0.05/3,3.0/3,0,1), //v6 
+      vec4(-0.05/3,0,0,1), //7 
       //building2 
       //face 1 
       //using points from bulding 1 face 1 plus 
-      vec4(0.5,0,-0.4, 1), //v8
-      vec4(0.5,3,-0.4, 1), //v9
+      vec4(0.5/3,0,-0.4/3, 1), //v8
+      vec4(0.5/3,3.0/3,-0.4/3, 1), //v9
       //face2 
-      vec4(0.4,0,-0.5, 1), //v10
-      vec4(0.4,3,-0.5, 1), //v11
+      vec4(0.4/3,0,-0.5/3, 1), //v10
+      vec4(0.4/3,3.0/3,-0.5/3, 1), //v11
       //face 3 
-      vec4(0,0,0.1,1), //v12
-      vec4(0,3,0.1,1), //v13
+      vec4(0,0,0.1/3,1), //v12
+      vec4(0,3.0/3,0.1/3,1), //v13
       //building 4 
       //face 1 
-      vec4(-0.4,0,-0.5,1), //v14
-      vec4(-0.4,3,-0.5,1), //15
+      vec4(-0.4/3,0,-0.5/3,1), //v14
+      vec4(-0.4/3,3.0/3,-0.5/3,1), //15
       //face2
-      vec4(-0.5,0,-0.4,1), //16
-      vec4(-0.5,3,-0.4,1) //17
+      vec4(-0.5/3,0,-0.4/3,1), //16
+      vec4(-0.5/3,3.0/3,-0.4/3,1) //17
 
 
 
@@ -435,11 +434,9 @@ vec4(0.8,0.49,0.19,1),
 vec4(0.8,0.49,0.19,1),
 vec4(0.8,0.49,0.19,1),
 vec4(0.8,0.49,0.19,1)
-
-
     };
 
-for(int i = 0; i < 14; i++) {
+for(int i = 0; i < 13; i++) {
   glBindVertexArray(vao[i]);
   glUniform4fv(face_loc, 1, colors[i]);
   // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[i]);
@@ -449,21 +446,50 @@ for(int i = 0; i < 14; i++) {
 }
 void building3::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
-    model = RotateY(90) * model;
+    model = RotateY(-90) * model;
+        currentdirection = static_cast<direction>((currentdirection + 3) % 4);
+
 }
+
 
 void building3::moveRight() {
     // model = model * Translate(0.5, 0, 0);
-    model = RotateY(-90) * model;
+    model = RotateY(90) * model;
+        currentdirection = static_cast<direction>((currentdirection + 1) % 4);
+
 }
 
 void building3::moveForward() {
-    model = model * Translate(0, 0, -0.5);
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0, 0.5);
+      break;
+    case east: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, -0.5);
+      break;
+    case west: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+  }}
 
 void building3::moveBackward() {
-    model = model * Translate(0, 0, 0.5);
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0.0, -0.5); 
+      break;
+    case east: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, 0.5);
+      break;
+    case west: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+  }}
 //=============================
 
 building4::building4(GLuint vertexLoc, GLuint faceLoc,
@@ -673,36 +699,40 @@ void building4::moveBackward() {
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
 	     GLfloat scale_x, GLfloat scale_y, GLfloat scale_z)
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
-    model_loc{modelLoc}
+    model_loc{modelLoc}, currentdirection{direction::north}
 {
-    const vec4 point[9] = {
+    const vec4 point[10] = {
 //bottom of pyrymid 
-vec4(-0.4,0,0.4,1),
-vec4(0.4,0,0,4,1),
-vec4(0.4,0,-0.4,1),
-vec4(-0.4,0,-0.4,1),
+vec4(-0.4/2,0,0.4/2,1), //v0
+vec4(0.4/2,0,0.4/2,1), //v1
+vec4(0.4/2,0,-0.4/2,1),  //v2
+vec4(-0.4/2,0,-0.4/2,1), //v3
 //center
-vec4(0,1,0,1),
-vec4(0.4,2,0.4,1),
-vec4(0.4,2,0.4,1),
-vec4(-0.4,2,-0.4,1),
-vec4(-0.4,2,0.4,1)
+vec4(0,1.0/2,0,1),  //v4
+
+//top pyramid
+vec4(0.4/2,1.5/2,0.4/2,1),  //v5
+vec4(0.4/2,1.5/2,0.4/2,1), //v6
+vec4(-0.4/2,1.5/2,-0.4/2,1), //v7
+vec4(-0.4/2,1.5/2,0.4/2,1), //v8
+vec4(0,0.75/2,0,1),  //v9
 
 };
     
     
 const vec4 colours[10] = {
   // Bottom Cube
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0) // Wood
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0) // medium Aquamarine
+
 };
 
 
@@ -710,17 +740,23 @@ const int face[10][4] = {
 //=============
 // Bottom pyrimid
 //=============
-{1,2,3,4},
-{1,2,5,5},
-{2,3,5,5},
-{3,4,5,5},
-{5,1,4,4},
+// {1,2,3,4},
+// {1,2,5,5},
+// {2,3,5,5},
+// {3,4,5,5},
+// {5,1,4,4},
+
+{0,1,2,3}, // bottom
+{0,1,4,4}, //  side1
+{1,2,4,4}, // side2
+{2,3,4,4}, // side 3
+{4,0,3,3}, // side 4
 //second pyrmid 
-{9,6,7,8},
-{6,5,7,7},
-{7,5,8,8},
-{8,5,9,9},
-{9,5,6,6}
+{8,5,6,7}, //
+{5,9,6,6}, //
+{6,9,7,7}, // 
+{7,9,8,8}, //
+{8,9,5,5} //
 };
 
     glGenVertexArrays(10, vao);
@@ -775,16 +811,16 @@ void building5::draw() const
   
 const vec4 colours[10] = {
   // Bottom Cube
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
+  vec4(0.196, 0.8, 0.6, 1.0) // medium Aquamarine
 };
 
 
@@ -798,18 +834,44 @@ for(int i = 0; i < 10; i++) {
 }
 void building5::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
-    model = RotateY(90) * model;
-}
+    model =  RotateY(-90) * model;
+    currentdirection = static_cast<direction>((currentdirection + 3) % 4);
+    }
 
 void building5::moveRight() {
     // model = model * Translate(0.5, 0, 0);
-    model = RotateY(-90) * model;
-}
+    model =  RotateY(90) * model;
+    currentdirection = static_cast<direction>((currentdirection + 1) % 4);
+    }
 
 void building5::moveForward() {
-    model = model * Translate(0, 0, -0.5);
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0, 0.5);
+      break;
+    case east: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, -0.5);
+      break;
+    case west: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+  }}
 
 void building5::moveBackward() {
-    model = model * Translate(0, 0, 0.5);	
-}
+  switch(currentdirection){
+    case north: 
+      model = model * Translate(0.0, 0.0, -0.5); 
+      break;
+    case east: 
+      model = model * Translate(0.5, 0.0, 0.0);
+      break;
+    case south: 
+      model = model * Translate(0.0, 0.0, 0.5);
+      break;
+    case west: 
+      model = model * Translate(-0.5, 0.0, 0.0);
+      break;
+  }}
