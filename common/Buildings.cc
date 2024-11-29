@@ -154,7 +154,7 @@ building2::building2(GLuint vertexLoc, GLuint faceLoc,
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
     model_loc{modelLoc}, currentdirection{direction::north}
 {
-    const vec4 point[12] = {
+    const vec4 point[13] = {
       vec4(-0.40, 0, 0.40, 1),   // v0
       vec4(0.40, 0, 0.40, 1),   // v1
       vec4(-0.40, 0, -0.40, 1),   // v2
@@ -167,23 +167,29 @@ building2::building2(GLuint vertexLoc, GLuint faceLoc,
       vec4(-0.10, 0, 0.41, 1),  // v8
       vec4(0.10, 0, 0.41, 1), // v9
       vec4(0.10, 0.30, 0.41, 1),  // v10
-      vec4(-0.10, 0.30, 0.41, 1)  // v11
+      vec4(-0.10, 0.30, 0.41, 1),  // v11
+      // top cone
+      vec4(0.0, 3.2, 0.0, 1) // v12
     };
 
-    const int face[7][4] = {
+    const int face[11][4] = {
       {0,1,5,4}, // front
       {2,0,4,6}, //left
       {1,3,7,5}, //right
       {3,2,6,7}, // back
       {4,5,7,6}, //top
       {2,3,1,0}, //bottom
-      {8,9,10,11} //door
+      {8,9,10,11}, //door
+      {4,5,12},  // top cone 1
+      {5,7,12},  // top cone 2
+      {7,6,12},  // top cone 3
+      {6,4,12}  // top cone 4
     };
 
-    glGenVertexArrays(7, vao);
-    glGenBuffers(7, buffer);
+    glGenVertexArrays(11, vao);
+    glGenBuffers(11, buffer);
 
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 11; i++) {
       glBindVertexArray(vao[i]);
 
       // initialize a buffer object
@@ -208,24 +214,28 @@ building2::building2(GLuint vertexLoc, GLuint faceLoc,
 
 building2::~building2()
 {
-  glDeleteVertexArrays(7, vao);
-  glDeleteBuffers(7, buffer);
+  glDeleteVertexArrays(11, vao);
+  glDeleteBuffers(11, buffer);
 }
 
 void building2::draw() const
 {
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
-  const vec4 colors[7] = {
+  const vec4 colors[11] = {
     vec4( 0.737255, 0.560784, 0.560784, 1.0), // pink
     vec4( 0.737255, 0.560784, 0.560784, 1.0), // pink
     vec4( 0.737255, 0.560784, 0.560784, 1.0), // pink
     vec4( 0.737255, 0.560784, 0.560784, 1.0), // pink
     vec4( 0.5, 0.5, 0.5, 1.0), 
-    vec4( 0.8, 0.8, 0.8, 1.0), // black
-    vec4( 0.8, 0.8, 0.8, 1.0) // black
+    vec4( 0.5, 0.5, 0.5, 1.0), 
+    vec4( 0.5, 0.5, 0.5, 1.0), 
+    vec4( 0.5, 0.5, 0.5, 1.0), 
+    vec4( 0.8, 0.8, 0.8, 1.0), 
+    vec4( 0.5, 0.5, 0.5, 1.0),
+    vec4( 0.8, 0.8, 0.8, 1.0)
   };
 
-  for(int i = 0; i < 7; i++) {
+  for(int i = 0; i < 11; i++) {
     glBindVertexArray(vao[i]);
     glUniform4fv(face_loc, 1, colors[i]);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);

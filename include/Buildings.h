@@ -41,7 +41,7 @@ class building2 : public Object { // Desmond
   direction currentdirection;
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;
-  GLuint vao[7], buffer[7];
+  GLuint vao[11], buffer[11];
 };
 class building3 : public Object { // Albert
  public:
