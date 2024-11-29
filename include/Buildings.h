@@ -35,7 +35,7 @@ class building2 : public Object { // Desmond
     GLfloat scale_x = 1,GLfloat scale_y = 1,GLfloat scale_z = 1);
     ~building2();
     void draw() const;
- enum direction {north,east,south, west};
+ enum direction {north,south, east, west};
  direction currentdirection;
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;
@@ -49,7 +49,7 @@ class building3 : public Object { // Albert
     GLfloat scale_x = 1,GLfloat scale_y = 1,GLfloat scale_z = 1);
     ~building3();
     void draw() const;
- enum direction {north,east, south, west};
+ enum direction {north,south, east, west};
  direction currentdirection;
   mat4 model;
   GLuint vertex_loc, face_loc, model_loc;

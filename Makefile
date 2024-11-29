@@ -7,16 +7,13 @@ LIBS=-lfreeglut -lglew32 -lopengl32 -lglu32 # Windows
 default_target: main
 .PHONY : default_target
 
-main: main.o InitShader.o Object.o Plane.o Traffic_Light.o Car.o Camera.o Buildings.o Pavement.o light.o
+main: main.o InitShader.o Object.o Plane.o Traffic_Light.o Car.o Camera.o Buildings.o Pavement.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
 main.o: main.cc
 	$(CC) $(CFLAGS) -c $^
 
 InitShader.o: common/InitShader.cc
-	$(CC) $(CFLAGS) -c $^
-
-light.o: common/light.cc
 	$(CC) $(CFLAGS) -c $^
 
 Object.o: common/Object.cc
