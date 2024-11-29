@@ -45,8 +45,8 @@ void init()
   // Initialize the vertex position attribute from the vertex shader
   GLuint loc = glGetAttribLocation( program, "vPosition" );
 
-  plane = new Plane(loc, faceColourLoc, modelLoc, vec4(0.0, 0.0, 0.0, 1.0));
-  car = new Car(loc, faceColourLoc, modelLoc, vec4(0.0, 0.0, 0.0, 1.0));
+  plane = new Plane(loc, faceColourLoc,   modelLoc, vec4(0.0, 0.0, 0.0, 1.0));
+  car = new Car(loc, faceColourLoc, modelLoc, vec4(0.0, 0.0, 0.0, 1.0), 0, 0, 0, 0.02, 0.02, 0.02);
 
   vec4 buildingPositions1[8] = {
     vec4(2.25, 0.0001, 2.15, 1.0), vec4(2.25, 0.0001, 3.65, 1.0), vec4(2.25, 0.0001, 5.15, 1.0),
@@ -99,7 +99,7 @@ void init()
   }
 
 
-  glClearColor( 0.74902, 0.847059, 0.847059, 1.0 ); // black background
+  glClearColor( 0.74902, 0.847059, 0.847059, 1.0 ); // light blue background
   glEnable(GL_DEPTH_TEST);
   glClearDepth(1.0);
   glDepthFunc(GL_LESS);
