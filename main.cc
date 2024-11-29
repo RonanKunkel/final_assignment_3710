@@ -18,9 +18,12 @@ Plane *plane;
 Car *car;
 building1 *buildings1[8];
 building2 *buildings2[5];
+building3 *buildings3[4];
 building4 *buildings4[4];
+building5 *buildings5[5];
 PavementX *pavementsX[9];
 PavementZ *pavementsZ[9];
+Wheels *wheels[4];
 
 GLfloat camera_theta = M_PI/2, camera_radius = 1.0, modValue = 1.5;
 
@@ -57,6 +60,16 @@ void init()
   vec4 buildingPosition2[5] = {
     vec4(-0.75, 0.0001, -0.75, 1.0), vec4(-0.75, 0.0001, -2.25, 1.0), vec4(0.75, 0.0001, 2.25, 1.0),
     vec4(2.25, 0.0001, -0.75, 1.0), vec4(-6.75, 0.0001, 0.75, 1.0)//, vec4(-2.25, 0.0001, -6.75, 1.0)
+  };
+  vec4 buildingPositions3[5] = {
+    vec4(2.25, 0.0001, -0.75, 1.0), vec4(0.75, 0.0001, -0.75, 1.0), vec4(-0.75, 0.0001, -0.75, 1.0),
+    vec4(-2.25, 0.0001, -0.75 , 1.0), vec4(-3.75, 0.0001, -0.75, 1.0),
+
+  };
+  vec4 buildingPositions5[5] = {
+    vec4(2.25, 0.0001, 0.75, 1.0), vec4(0.75, 0.0001, 0.75, 1.0), vec4(-0.75, 0.0001, 0.75, 1.0),
+    vec4(-2.25, 0.0001, 0.75, 1.0), vec4(-3.75, 0.0001, 0.75, 1.0),
+
   };
 
   vec4 PavementpositonX[9]={
@@ -97,7 +110,20 @@ void init()
   for (int i = 0; i < 9; ++i) {
     pavementsZ[i] = new PavementZ(loc, faceColourLoc, modelLoc, PavementpositonZ[i]);
   }
+  for (int i = 0; i < 5; ++i) {
+    buildings3[i] = new building3(loc, faceColourLoc, modelLoc, buildingPositions3[i]);
+  }
+  for (int i = 0; i < 5; ++i) {
+    buildings5[i] = new building5(loc, faceColourLoc, modelLoc, buildingPositions5[i]);
+  }
 
+  vec4 wheelsPos[4] = {
+    vec4(0.093,0.03,-0.145,1), vec4(-0.07,0.03,-0.145,1), vec4(-0.07,0.03,0.22,1),vec4(0.093,0.03,0.22,1)
+  };
+
+  for (int i = 0; i < 4; ++i) {
+    wheels[i] = new Wheels(loc, faceColourLoc, modelLoc, wheelsPos[i]);
+  };
 
   glClearColor( 0.74902, 0.847059, 0.847059, 1.0 ); // light blue background
   glEnable(GL_DEPTH_TEST);
@@ -117,9 +143,11 @@ void display(void)
   car->draw();
   for (int i = 0; i < 8; ++i) buildings1[i]->draw();
   for (int i = 0; i < 5; ++i) buildings2[i]->draw();
-  for (int i = 0; i < 4; ++i) buildings4[i]->draw();
+  for (int i = 0; i < 5; ++i) buildings3[i]->draw();
+  for (int i = 0; i < 5; ++i) buildings5[i]->draw();
   for (int i = 0; i < 9; ++i) pavementsX[i]->draw();
   for (int i = 0; i < 9; ++i) pavementsZ[i]->draw();
+  for (int i = 0; i < 4; ++i) wheels[i]->draw();
 
   glutSwapBuffers();
 }
@@ -150,7 +178,9 @@ void cameraAndMovement(int key, int x, int y) {
         plane->moveLeft();
         for (int i = 0; i < 8; ++i) buildings1[i]->moveLeft();
         for (int i = 0; i < 5; ++i) buildings2[i]->moveLeft();
+        for (int i = 0; i < 5; ++i) buildings3[i]->moveLeft();
         for (int i = 0; i < 4; ++i) buildings4[i]->moveLeft();
+        for (int i = 0; i < 5; ++i) buildings5[i]->moveLeft();
         for (int i = 0; i < 9; ++i) pavementsX[i]->moveLeft();
         for (int i = 0; i < 9; ++i) pavementsZ[i]->moveLeft();
         break;
@@ -163,7 +193,9 @@ void cameraAndMovement(int key, int x, int y) {
         plane->moveRight();
         for (int i = 0; i < 8; ++i) buildings1[i]->moveRight();
         for (int i = 0; i < 5; ++i) buildings2[i]->moveRight();
+        for (int i = 0; i < 5; ++i) buildings3[i]->moveRight();
         for (int i = 0; i < 4; ++i) buildings4[i]->moveRight();
+        for (int i = 0; i < 5; ++i) buildings5[i]->moveRight();
         for (int i = 0; i < 9; ++i) pavementsX[i]->moveRight();
         for (int i = 0; i < 9; ++i) pavementsZ[i]->moveRight();
         break;
@@ -179,9 +211,12 @@ void cameraAndMovement(int key, int x, int y) {
       plane->moveForward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveForward();
       for (int i = 0; i < 5; ++i) buildings2[i]->moveForward();
+      for (int i = 0; i < 5; ++i) buildings3[i]->moveForward();
       for (int i = 0; i < 4; ++i) buildings4[i]->moveForward();
+      for (int i = 0; i < 5; ++i) buildings5[i]->moveForward();
       for (int i = 0; i < 9; ++i) pavementsX[i]->moveForward();
       for (int i = 0; i < 9; ++i) pavementsZ[i]->moveForward();
+      for (int i = 0; i < 4; ++i) wheels[i]->moveForward();
 
       break;
       }
@@ -194,9 +229,13 @@ void cameraAndMovement(int key, int x, int y) {
       plane->moveBackward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveBackward();
       for (int i = 0; i < 5; ++i) buildings2[i]->moveBackward();
+      for (int i = 0; i < 5; ++i) buildings3[i]->moveBackward();
       for (int i = 0; i < 4; ++i) buildings4[i]->moveBackward();
+      for (int i = 0; i < 5; ++i) buildings5[i]->moveBackward();
       for (int i = 0; i < 9; ++i) pavementsX[i]->moveBackward();
        for (int i = 0; i < 9; ++i) pavementsZ[i]->moveBackward();
+       for (int i = 0; i < 4; ++i) wheels[i]->moveBackward();
+
       break;
       }
   }

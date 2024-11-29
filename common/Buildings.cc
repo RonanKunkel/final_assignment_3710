@@ -285,7 +285,185 @@ void building2::moveBackward() {
       model = model * Translate(-0.5, 0.0, 0.0);
       break;
   }}
+  //====================================================
 
+building3::building3(GLuint vertexLoc, GLuint faceLoc,
+	     GLuint modelLoc, vec4 pos,
+	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
+	     GLfloat scale_x, GLfloat scale_y, GLfloat scale_z)
+  : vertex_loc{vertexLoc}, face_loc{faceLoc},
+    model_loc{modelLoc}
+{
+    const vec4 point[18] = {
+      //building 1 
+      //face 1 
+      vec4(0.05, 0, 0.5, 1), //v0
+      vec4(0.05, 0, 0, 1), //v1 
+      vec4(0.05, 3, 0, 1), //v2
+      vec4(0.05, 3, 0.5, 1), //v3 
+      //face 2 
+      vec4(-0.05,0,0.5,1), //v4
+      vec4(-0.05,3,0.5,1), //v5  
+      vec4(-0.05,3,0,1), //v6 
+      vec4(-0.05,0,0,1), //7 
+      //building2 
+      //face 1 
+      //using points from bulding 1 face 1 plus 
+      vec4(0.5,0,-0.4, 1), //v8
+      vec4(0.5,3,-0.4, 1), //v9
+      //face2 
+      vec4(0.4,0,-0.5, 1), //v10
+      vec4(0.4,3,-0.5, 1), //v11
+      //face 3 
+      vec4(0,0,0.1,1), //v12
+      vec4(0,3,0.1,1), //v13
+      //building 4 
+      //face 1 
+      vec4(-0.4,0,-0.5,1), //v14
+      vec4(-0.4,3,-0.5,1), //15
+      //face2
+      vec4(-0.5,0,-0.4,1), //16
+      vec4(-0.5,3,-0.4,1) //17
+
+
+
+    
+        
+    };
+    
+    
+    const vec4 colors[13] = {
+vec4(0.8,0.49,0.19,1), //gold 
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1)
+    };
+
+    const int face[13][4] = {
+      //wing 1 
+      {1,2,3,0}, //face 1
+      {4,0,3,5}, //face 2 
+      {4,5,6,7}, //face 3 
+      {3,2,6,5}, //roof
+      //wing 2 
+      {1,8,9,2}, //face 1 
+      {8,10,11,9}, //face 2 
+      {11,10,12,13}, //face 3 
+      {9,11,13,2}, //roof
+      //wing 3
+      {13,12,14,15}, //face 1 
+      {15,14,16,17}, //face 2 
+      {17,16,7,6}, //face 3
+      {15,17,6,13},//roof 
+      //center 
+      {6,2,13,13} //roof  
+      
+
+    };
+
+
+    glGenVertexArrays(13, vao);
+    glGenBuffers(13, buffer);
+
+    for (int i = 0; i < 13; i++) {
+      glBindVertexArray(vao[i]);
+
+      // initialize a buffer object
+      glBindBuffer(GL_ARRAY_BUFFER, buffer[i]);
+          
+          
+          
+          vec4 A[4];
+        // No need for size variable since we always use 4 vertices
+        for (int j = 0; j < 4; j++) {
+            A[j] = point[face[i][j]];
+         }
+      // vec4 A[4];
+      // int size = 0;
+      // for (int j = 0; j < 4; j++) {
+      //   if (face[i][j] >= 0) {
+	    //     A[size++] = point[face[i][j]];
+      //   }
+      
+     
+     
+      glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(vec4), A, GL_STATIC_DRAW);
+
+      glEnableVertexAttribArray( vertexLoc );
+      glVertexAttribPointer( vertexLoc, 4, GL_FLOAT, GL_FALSE, 0,
+	  		   BUFFER_OFFSET(0) );
+    }
+
+    model = Translate(pos)
+      * RotateX(theta_x) * RotateY(theta_y) * RotateZ(theta_z)
+      * Scale(scale_x, scale_y, scale_z);
+}
+
+
+
+
+building3::~building3()
+{
+  glDeleteVertexArrays(13, vao);
+  glDeleteBuffers(13, buffer);
+}
+
+void building3::draw() const
+{
+  glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
+  
+const vec4 colors[13] = {
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1),
+vec4(0.8,0.49,0.19,1)
+
+
+    };
+
+for(int i = 0; i < 14; i++) {
+  glBindVertexArray(vao[i]);
+  glUniform4fv(face_loc, 1, colors[i]);
+  // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[i]);
+  // glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
+  glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+}
+}
+void building3::moveLeft() {
+    // model = model * Translate(-0.5, 0, 0);
+    model = RotateY(90) * model;
+}
+
+void building3::moveRight() {
+    // model = model * Translate(0.5, 0, 0);
+    model = RotateY(-90) * model;
+}
+
+void building3::moveForward() {
+    model = model * Translate(0, 0, -0.5);
+}
+
+void building3::moveBackward() {
+    model = model * Translate(0, 0, 0.5);
+}
 //=============================
 
 building4::building4(GLuint vertexLoc, GLuint faceLoc,
@@ -490,3 +668,148 @@ void building4::moveBackward() {
       model = model * Translate(-0.5, 0.0, 0.0);
       break;
   }}
+  building5::building5(GLuint vertexLoc, GLuint faceLoc,
+	     GLuint modelLoc, vec4 pos,
+	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
+	     GLfloat scale_x, GLfloat scale_y, GLfloat scale_z)
+  : vertex_loc{vertexLoc}, face_loc{faceLoc},
+    model_loc{modelLoc}
+{
+    const vec4 point[9] = {
+//bottom of pyrymid 
+vec4(-0.4,0,0.4,1),
+vec4(0.4,0,0,4,1),
+vec4(0.4,0,-0.4,1),
+vec4(-0.4,0,-0.4,1),
+//center
+vec4(0,1,0,1),
+vec4(0.4,2,0.4,1),
+vec4(0.4,2,0.4,1),
+vec4(-0.4,2,-0.4,1),
+vec4(-0.4,2,0.4,1)
+
+};
+    
+    
+const vec4 colours[10] = {
+  // Bottom Cube
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0) // Wood
+};
+
+
+const int face[10][4] = {
+//=============
+// Bottom pyrimid
+//=============
+{1,2,3,4},
+{1,2,5,5},
+{2,3,5,5},
+{3,4,5,5},
+{5,1,4,4},
+//second pyrmid 
+{9,6,7,8},
+{6,5,7,7},
+{7,5,8,8},
+{8,5,9,9},
+{9,5,6,6}
+};
+
+    glGenVertexArrays(10, vao);
+    glGenBuffers(10, buffer);
+
+    for (int i = 0; i < 10; i++) {
+      glBindVertexArray(vao[i]);
+
+      // initialize a buffer object
+      glBindBuffer(GL_ARRAY_BUFFER, buffer[i]);
+          
+          
+          
+          vec4 A[4];
+        // No need for size variable since we always use 4 vertices
+        for (int j = 0; j < 4; j++) {
+            A[j] = point[face[i][j]];
+         }
+      // vec4 A[4];
+      // int size = 0;
+      // for (int j = 0; j < 4; j++) {
+      //   if (face[i][j] >= 0) {
+	    //     A[size++] = point[face[i][j]];
+      //   }
+      
+     
+     
+      glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(vec4), A, GL_STATIC_DRAW);
+
+      glEnableVertexAttribArray( vertexLoc );
+      glVertexAttribPointer( vertexLoc, 4, GL_FLOAT, GL_FALSE, 0,
+	  		   BUFFER_OFFSET(0) );
+    }
+
+    model = Translate(pos)
+      * RotateX(theta_x) * RotateY(theta_y) * RotateZ(theta_z)
+      * Scale(scale_x, scale_y, scale_z);
+}
+
+
+
+
+building5::~building5()
+{
+  glDeleteVertexArrays(10, vao);
+  glDeleteBuffers(10, buffer);
+}
+
+void building5::draw() const
+{
+  glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
+  
+const vec4 colours[10] = {
+  // Bottom Cube
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+};
+
+
+for(int i = 0; i < 10; i++) {
+  glBindVertexArray(vao[i]);
+  glUniform4fv(face_loc, 1, colours[i]);
+  // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[i]);
+  // glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
+  glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+}
+}
+void building5::moveLeft() {
+    // model = model * Translate(-0.5, 0, 0);
+    model = RotateY(90) * model;
+}
+
+void building5::moveRight() {
+    // model = model * Translate(0.5, 0, 0);
+    model = RotateY(-90) * model;
+}
+
+void building5::moveForward() {
+    model = model * Translate(0, 0, -0.5);
+}
+
+void building5::moveBackward() {
+    model = model * Translate(0, 0, 0.5);	
+}
