@@ -8,13 +8,14 @@
 #include "Camera.h"
 #include "Buildings.h"
 #include "Pavement.h"
+#include "light.h"
 #include <iostream>
-
 using namespace std;
 
 //----------------------------------------------------------------------------
 Camera *currentCamera;
 Plane *plane;
+Light *light[5];
 Car *car;
 building1 *buildings1[8];
 building4 *buildings4[4];
@@ -44,8 +45,22 @@ void init()
   // Initialize the vertex position attribute from the vertex shader
   GLuint loc = glGetAttribLocation( program, "vPosition" );
 
+
   plane = new Plane(loc, faceColourLoc, modelLoc, vec4(0.0, 0.0, 0.0, 1.0));
   car = new Car(loc, faceColourLoc, modelLoc, vec4(0.0, 0.0, 0.0, 1.0));
+
+
+vec4 lightposition[5] = {
+vec4(1.5, 0.0001, 1.5, 1.0),
+vec4(3.0, 0.0001, 1.5, 1.0),
+vec4(4.5, 0.0001, 1.5, 1.0),
+vec4(6.0, 0.0001, 1.5, 1.0),
+vec4(1.5, 0.0001, 3.0, 1.0),
+};
+
+  for (int i = 0; i < 5; ++i) {
+    light[i] = new Light(loc, faceColourLoc, modelLoc, lightposition[i]);
+  }
 
   vec4 buildingPositions1[8] = {
     vec4(2.25, 0.0001, 2.15, 1.0), vec4(2.25, 0.0001, 3.65, 1.0), vec4(2.25, 0.0001, 5.15, 1.0),
@@ -53,6 +68,7 @@ void init()
     vec4(5.25, 0.0001, 3.65, 1.0), vec4(5.25, 0.0001, 2.15, 1.0)
 
   };
+
 
 vec4 PavementpositonX[9]={
    vec4(-6.0, 0.0001, 0.0, 1.0), vec4(-4.5, 0.0001, 0.0, 1.0), vec4(-3.0, 0.0001, 0.0, 1.0),
@@ -105,11 +121,11 @@ void display(void)
 
   plane->draw();
   car->draw();
+  for (int i = 0; i < 5; ++i) light[i]->draw();
   for (int i = 0; i < 8; ++i) buildings1[i]->draw();
   for (int i = 0; i < 4; ++i) buildings4[i]->draw();
   for (int i = 0; i < 9; ++i) pavementsX[i]->draw();
   for (int i = 0; i < 9; ++i) pavementsZ[i]->draw();
-
   glutSwapBuffers();
 }
 
@@ -137,6 +153,7 @@ void cameraAndMovement(int key, int x, int y) {
     case GLUT_KEY_LEFT:
       if (plane->currentPosition.x == 0.0 && plane->currentPosition.z == 0.0 || modXVal == 0 && modZVal == 0) {
         plane->moveLeft();
+  for (int i = 0; i < 5; ++i) light[i]->moveLeft();
         for (int i = 0; i < 8; ++i) buildings1[i]->moveLeft();
         for (int i = 0; i < 4; ++i) buildings4[i]->moveLeft();
         for (int i = 0; i < 9; ++i) pavementsX[i]->moveLeft();
@@ -149,6 +166,7 @@ void cameraAndMovement(int key, int x, int y) {
     case GLUT_KEY_RIGHT:
       if (plane->currentPosition.x == 0.0 && plane->currentPosition.z == 0.0 || modXVal == 0 && modZVal == 0) {
         plane->moveRight();
+  for (int i = 0; i < 5; ++i) light[i]->moveRight();
         for (int i = 0; i < 8; ++i) buildings1[i]->moveRight();
         for (int i = 0; i < 4; ++i) buildings4[i]->moveRight();
         for (int i = 0; i < 9; ++i) pavementsX[i]->moveRight();
@@ -164,6 +182,7 @@ void cameraAndMovement(int key, int x, int y) {
       } else if (plane->getDirection() == 3 && plane->currentPosition.x <= -7){
       } else {
       plane->moveForward();
+  for (int i = 0; i < 5; ++i) light[i]->moveForward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveForward();
       for (int i = 0; i < 4; ++i) buildings4[i]->moveForward();
       for (int i = 0; i < 9; ++i) pavementsX[i]->moveForward();
@@ -178,6 +197,7 @@ void cameraAndMovement(int key, int x, int y) {
       } else if (plane->getDirection() == 3 && plane->currentPosition.x >= 7){
       } else {
       plane->moveBackward();
+  for (int i = 0; i < 5; ++i) light[i]->moveBackward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveBackward();
       for (int i = 0; i < 4; ++i) buildings4[i]->moveBackward();
       for (int i = 0; i < 9; ++i) pavementsX[i]->moveBackward();
@@ -196,6 +216,14 @@ void keyboard(unsigned char key, int x, int y) {
       exit(EXIT_SUCCESS);
       break;
   }
+}
+void timer(int val)
+{
+
+  for (int i = 0; i < 5; ++i) light[i]->next_colour();
+  
+  glutPostRedisplay();
+  glutTimerFunc(3000, timer, 0);
 }
 
 //----------------------------------------------------------------------------
@@ -221,7 +249,7 @@ int main( int argc, char **argv )
   glutDisplayFunc(display);
   glutSpecialFunc(cameraAndMovement);
   glutKeyboardFunc(keyboard);
-  
+  glutTimerFunc(3000,timer,0);
   glutMainLoop();
   return 0;
 }
