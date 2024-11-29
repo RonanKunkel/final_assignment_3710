@@ -203,9 +203,8 @@ void cameraAndMovement(int key, int x, int y) {
   
   currentCamera->sendToShader();
   // Used for debugging
-  std::cout << "Direction:" << plane->currentPosition << std::endl;
-  std::cout << "Direction:" << plane->getDirection() << std::endl;
-
+  // std::cout << "Direction:" << plane->currentPosition << std::endl;
+  // std::cout << "Direction:" << plane->getDirection() << std::endl;
   glutPostRedisplay();
 }
 
