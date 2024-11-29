@@ -107,13 +107,11 @@ for(int i = 0; i < 10; i++) {
 void building1::moveLeft() {
     model = RotateY(-90) * model;
         currentdirection = static_cast<direction>((currentdirection + 3) % 4);
-
 }
 
 void building1::moveRight() {
     model = RotateY(90) * model;
         currentdirection = static_cast<direction>((currentdirection + 1) % 4);
-
 }
 
 void building1::moveForward() {
@@ -156,7 +154,7 @@ building2::building2(GLuint vertexLoc, GLuint faceLoc,
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
     model_loc{modelLoc}, currentdirection{direction::north}
 {
-    const vec4 point[8] = {
+    const vec4 point[12] = {
       vec4(-0.40, 0, 0.40, 1),   // v0
       vec4(0.40, 0, 0.40, 1),   // v1
       vec4(-0.40, 0, -0.40, 1),   // v2
@@ -164,27 +162,28 @@ building2::building2(GLuint vertexLoc, GLuint faceLoc,
       vec4(-0.40, 3, 0.40, 1),   // v4
       vec4(0.40, 3, 0.40, 1),   // v5
       vec4(-0.40, 3, -0.40, 1),   // v6
-      vec4(0.40, 3,-0.40, 1)    // v7
+      vec4(0.40, 3,-0.40, 1),   // v7
+      // door verticies
+      vec4(-0.10, 0, 0.41, 1),  // v8
+      vec4(0.10, 0, 0.41, 1), // v9
+      vec4(0.10, 0.30, 0.41, 1),  // v10
+      vec4(-0.10, 0.30, 0.41, 1)  // v11
     };
 
-    const int face[6][4] = {
+    const int face[7][4] = {
       {0,1,5,4}, // front
       {2,0,4,6}, //left
       {1,3,7,5}, //right
       {3,2,6,7}, // back
       {4,5,7,6}, //top
-      {2,3,1,0} //bottom
-      // {4,5,8,8}, // front roof
-      // {7,6,9,9},// rear roof
-      // {4,8,9,6}, // left roof
-      // {5,7,9,8} // right roof
+      {2,3,1,0}, //bottom
+      {8,9,10,11} //door
     };
 
+    glGenVertexArrays(7, vao);
+    glGenBuffers(7, buffer);
 
-    glGenVertexArrays(6, vao);
-    glGenBuffers(6, buffer);
-
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 7; i++) {
       glBindVertexArray(vao[i]);
 
       // initialize a buffer object
@@ -209,23 +208,24 @@ building2::building2(GLuint vertexLoc, GLuint faceLoc,
 
 building2::~building2()
 {
-  glDeleteVertexArrays(6, vao);
-  glDeleteBuffers(6, buffer);
+  glDeleteVertexArrays(7, vao);
+  glDeleteBuffers(7, buffer);
 }
 
 void building2::draw() const
 {
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
-  const vec4 colors[6] = {
+  const vec4 colors[7] = {
     vec4( 0.737255, 0.560784, 0.560784, 1.0), // pink
     vec4( 0.737255, 0.560784, 0.560784, 1.0), // pink
     vec4( 0.737255, 0.560784, 0.560784, 1.0), // pink
     vec4( 0.737255, 0.560784, 0.560784, 1.0), // pink
-    vec4( 1.0, 1.0, 1.0, 1.0), // black
-    vec4( 1.0, 1.0, 1.0, 1.0) // black
+    vec4( 0.5, 0.5, 0.5, 1.0), 
+    vec4( 0.8, 0.8, 0.8, 1.0), // black
+    vec4( 0.8, 0.8, 0.8, 1.0) // black
   };
 
-  for(int i = 0; i < 6; i++) {
+  for(int i = 0; i < 7; i++) {
     glBindVertexArray(vao[i]);
     glUniform4fv(face_loc, 1, colors[i]);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);

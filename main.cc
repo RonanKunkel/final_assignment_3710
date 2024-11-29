@@ -77,7 +77,7 @@ void init()
 
   // building2
   for (int i = 0; i < 1; ++i) {
-    buildings2[0] = new building2(loc, faceColourLoc, modelLoc, buildingPosition2[i]);
+    buildings2[i] = new building2(loc, faceColourLoc, modelLoc, buildingPosition2[i]);
   }
 
   vec4 buildingPositions4[4] = {
@@ -115,8 +115,7 @@ void display(void)
   plane->draw();
   car->draw();
   for (int i = 0; i < 8; ++i) buildings1[i]->draw();
-  // for (int i = 0; i < 1; ++i) buildings2[i]->draw();
-  buildings2[0]->draw();
+  for (int i = 0; i < 1; ++i) buildings2[i]->draw();
   for (int i = 0; i < 4; ++i) buildings4[i]->draw();
   for (int i = 0; i < 9; ++i) pavementsX[i]->draw();
   for (int i = 0; i < 9; ++i) pavementsZ[i]->draw();
