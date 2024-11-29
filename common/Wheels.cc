@@ -141,6 +141,7 @@ void Wheels::draw() const {
         glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
 
         const vec4 colors[39] = {
+            //wheels black 
             vec4(0, 0, 0, 1),
             vec4(0, 0, 0, 1),
             vec4(0, 0, 0, 1),
@@ -175,11 +176,12 @@ void Wheels::draw() const {
             vec4(0, 0, 0, 1),
             vec4(0, 0, 0, 1),
             vec4(0, 0, 0, 1),
-            vec4(1,1,0,1),
-            vec4(1,0,1,1),
-            vec4(1,0,0,1),
-            vec4(0,1,0,1),
-            vec4(1,1,1,1)
+            //rim
+            vec4(0.556, 0.137, 0.419, 1),
+            vec4(0.439, 0.576, 0.858,1),
+            vec4(0.556, 0.137, 0.419, 1),
+            vec4(0.439, 0.576, 0.858,1),
+            vec4(0.72, 0.45, 0.20, 1)
         };
 
 for(int i = 0; i < 39; i++) {
