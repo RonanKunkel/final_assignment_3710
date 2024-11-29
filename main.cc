@@ -2,7 +2,6 @@
 #include <cmath>
 #include "Object.h"
 #include "Wheels.h"
-#include "Traffic_Light.h"
 #include "Plane.h"
 #include "Car.h"
 #include "Camera.h"
