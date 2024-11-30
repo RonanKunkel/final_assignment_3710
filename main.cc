@@ -259,9 +259,6 @@ void cameraAndMovement(int key, int x, int y) {
   }
   
   currentCamera->sendToShader();
-  // Used for debugging
-  // std::cout << "Direction:" << plane->currentPosition << std::endl;
-  // std::cout << "Direction:" << plane->getDirection() << std::endl;
   glutPostRedisplay();
 }
 
@@ -306,5 +303,19 @@ int main( int argc, char **argv )
   glutKeyboardFunc(keyboard);
   glutTimerFunc(3000,timer,0);
   glutMainLoop();
+
+  delete currentCamera;
+  delete plane;
+  for (int i = 0; i < 5; i++){
+      delete light[i];
+      delete buildings2[i];
+      delete buildings3[i];
+      delete buildings5[i];
+  }
+  delete car;
+  for (int i = 0; i < 8; i++) delete buildings1[i];
+  for (int i = 0; i < 4; i++) delete buildings4[i], delete wheels[i];
+  for (int i = 0; i < 9; i++) delete pavementsX[i], delete pavementsZ[i];
+
   return 0;
 }
