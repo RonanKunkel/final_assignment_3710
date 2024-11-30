@@ -1,6 +1,9 @@
 
 #include "Buildings.h"
-
+//=============================
+// building 1 constructor: 
+// takes in: vertex location(vertexloc), face location (faceloc), model location (modelloc)
+// scale factor for x,y,z coordinates and theta( rotation angle ) for x,y,z coordinates and starting position( pos ).
 building1::building1(GLuint vertexLoc, GLuint faceLoc,
 	     GLuint modelLoc, vec4 pos,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
@@ -8,6 +11,8 @@ building1::building1(GLuint vertexLoc, GLuint faceLoc,
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
     model_loc{modelLoc}, currentdirection{direction::north}
 {
+
+  // vertex definitions.
     const vec4 point[10] = {
       vec4(-0.35, 0, 0.35, 1),   // v0
       vec4(0.35, 0, 0.35, 1),   // v1
@@ -20,7 +25,7 @@ building1::building1(GLuint vertexLoc, GLuint faceLoc,
       vec4 (0,2,0.35,1),   //v8
       vec4 (0,2,-0.35,1)   //v9
     };
-
+//face definitions( numbers correspond to vertices, "0" = v0 )
     const int face[10][4] = {
       {0,1,5,4}, // front
       {2,0,4,6}, //left
@@ -34,10 +39,15 @@ building1::building1(GLuint vertexLoc, GLuint faceLoc,
       {5,7,9,8} // right roof
     };
 
-
+// generating appropriate amount of vao's and buffers
+// for each face of the object
     glGenVertexArrays(10, vao);
     glGenBuffers(10, buffer);
 
+
+//
+// Loop for passing correct buffer data for each face.
+//
     for (int i = 0; i < 10; i++) {
       glBindVertexArray(vao[i]);
 
@@ -56,18 +66,20 @@ building1::building1(GLuint vertexLoc, GLuint faceLoc,
       glVertexAttribPointer( vertexLoc, 4, GL_FLOAT, GL_FALSE, 0,
 	  		   BUFFER_OFFSET(0) );
     }
-
+//model calculation.
     model = Translate(pos)
       * RotateX(theta_x) * RotateY(theta_y) * RotateZ(theta_z)
       * Scale(scale_x, scale_y, scale_z);
 }
-
+//building destructor.
 building1::~building1()
 {
   glDeleteVertexArrays(10, vao);
   glDeleteBuffers(10, buffer);
 }
-
+//building draw function:
+//includes specified colours for each face.
+//drawn with triangle fan.
 void building1::draw() const
 {
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
@@ -91,6 +103,13 @@ for(int i = 0; i < 10; i++) {
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 }
+// Functions for car movement:
+// each object is rotated and traslated the opposite direction the car is meant to rotate/translate.
+// creating an illusion of the car moving.
+//moveLeft: rotates the traffic light object -90 degrees and updates current direction accordingly.
+//moveRight: rotates the traffic light object 90 degrees and updates current direction accordingly.
+//moveForward: translates the traffic light object according to the current direction.
+//moveBackward: translates the traffic light object according to the current direction.
 void building1::moveLeft() {
     model = RotateY(-90) * model;
         currentdirection = static_cast<direction>((currentdirection + 3) % 4);
@@ -134,6 +153,9 @@ void building1::moveBackward() {
   }}
 
 //=============================
+// building 2 constructor: 
+// takes in: vertex location(vertexloc), face location (faceloc), model location (modelloc)
+// scale factor for x,y,z coordinates and theta( rotation angle ) for x,y,z coordinates and starting position( pos ).
 building2::building2(GLuint vertexLoc, GLuint faceLoc,
 	     GLuint modelLoc, vec4 pos,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
@@ -141,6 +163,7 @@ building2::building2(GLuint vertexLoc, GLuint faceLoc,
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
     model_loc{modelLoc}, currentdirection{direction::north}
 {
+  //vertex definitions.
     const vec4 point[13] = {
       vec4(-0.40, 0, 0.40, 1),   // v0
       vec4(0.40, 0, 0.40, 1),   // v1
@@ -158,7 +181,7 @@ building2::building2(GLuint vertexLoc, GLuint faceLoc,
       // top cone
       vec4(0.0, 3.2, 0.0, 1) // v12
     };
-
+//face definitions( numbers correspond to vertices, "0" = v0 )
     const int face[11][4] = {
       {0,1,5,4}, // front
       {2,0,4,6}, //left
@@ -172,39 +195,41 @@ building2::building2(GLuint vertexLoc, GLuint faceLoc,
       {7,6,12},  // top cone 3
       {6,4,12}  // top cone 4
     };
-
+// generating appropriate amount of vao's and buffers
+// for each face of the object
     glGenVertexArrays(11, vao);
     glGenBuffers(11, buffer);
-
+//
+// Loop for passing correct buffer data for each face.
+//
     for (int i = 0; i < 11; i++) {
       glBindVertexArray(vao[i]);
-
       // initialize a buffer object
       glBindBuffer(GL_ARRAY_BUFFER, buffer[i]);
-          
           vec4 A[4];
         // No need for size variable since we always use 4 vertices
         for (int j = 0; j < 4; j++) {
             A[j] = point[face[i][j]];
          }
-     
       glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(vec4), A, GL_STATIC_DRAW);
       glEnableVertexAttribArray( vertexLoc );
       glVertexAttribPointer( vertexLoc, 4, GL_FLOAT, GL_FALSE, 0,
 	  		   BUFFER_OFFSET(0) );
     }
-
+//model calculation.
     model = Translate(pos)
       * RotateX(theta_x) * RotateY(theta_y) * RotateZ(theta_z)
       * Scale(scale_x, scale_y, scale_z);
 }
-
+//building destructor.
 building2::~building2()
 {
   glDeleteVertexArrays(11, vao);
   glDeleteBuffers(11, buffer);
 }
-
+//building draw function:
+//includes specified colours for each face.
+//drawn with triangle fan.
 void building2::draw() const
 {
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
@@ -228,7 +253,13 @@ void building2::draw() const
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
   }
 }
-
+// Functions for car movement:
+// each object is rotated and traslated the opposite direction the car is meant to rotate/translate.
+// creating an illusion of the car moving.
+//moveLeft: rotates the traffic light object -90 degrees and updates current direction accordingly.
+//moveRight: rotates the traffic light object 90 degrees and updates current direction accordingly.
+//moveForward: translates the traffic light object according to the current direction.
+//moveBackward: translates the traffic light object according to the current direction.
 void building2::moveLeft() {
     model = RotateY(-90) * model;
         currentdirection = static_cast<direction>((currentdirection + 3) % 4);
@@ -271,6 +302,9 @@ void building2::moveBackward() {
       break;
   }}
   //====================================================
+// building 3 constructor: 
+// takes in: vertex location(vertexloc), face location (faceloc), model location (modelloc)
+// scale factor for x,y,z coordinates and theta( rotation angle ) for x,y,z coordinates and starting position( pos ).
 building3::building3(GLuint vertexLoc, GLuint faceLoc,
 	     GLuint modelLoc, vec4 pos,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
@@ -278,6 +312,7 @@ building3::building3(GLuint vertexLoc, GLuint faceLoc,
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
     model_loc{modelLoc}, currentdirection{direction::north}
 {
+  //vertex definitions
     const vec4 point[18] = {
       //building 1 
       //face 1 
@@ -310,23 +345,7 @@ building3::building3(GLuint vertexLoc, GLuint faceLoc,
       vec4(-0.5/3,3.0/3,-0.4/3,1) //17        
     };
     
-    
-    const vec4 colors[13] = {
-      vec4(0.8,0.49,0.19,1), //gold 
-      vec4(0.8,0.49,0.19,1),
-      vec4(0.8,0.49,0.19,1),
-      vec4(0.8,0.49,0.19,1),
-      vec4(0.8,0.49,0.19,1),
-      vec4(0.8,0.49,0.19,1),
-      vec4(0.8,0.49,0.19,1),
-      vec4(0.8,0.49,0.19,1),
-      vec4(0.8,0.49,0.19,1),
-      vec4(0.8,0.49,0.19,1),
-      vec4(0.8,0.49,0.19,1),
-      vec4(0.8,0.49,0.19,1),
-      vec4(0.8,0.49,0.19,1)
-    };
-
+//face definitions( numbers correspond to vertices, "0" = v0 )
     const int face[13][4] = {
       //wing 1 
       {1,2,3,0}, //face 1
@@ -349,24 +368,22 @@ building3::building3(GLuint vertexLoc, GLuint faceLoc,
 
     };
 
-
+// generating appropriate amount of vao's and buffers
+// for each face of the object
     glGenVertexArrays(13, vao);
     glGenBuffers(13, buffer);
-
+//
+// Loop for passing correct buffer data for each face.
+//
     for (int i = 0; i < 13; i++) {
       glBindVertexArray(vao[i]);
-
       // initialize a buffer object
       glBindBuffer(GL_ARRAY_BUFFER, buffer[i]);
-          
-          
-          
           vec4 A[4];
         // No need for size variable since we always use 4 vertices
         for (int j = 0; j < 4; j++) {
             A[j] = point[face[i][j]];
          }
-     
       glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(vec4), A, GL_STATIC_DRAW);
 
       glEnableVertexAttribArray( vertexLoc );
@@ -374,6 +391,7 @@ building3::building3(GLuint vertexLoc, GLuint faceLoc,
 	  		   BUFFER_OFFSET(0) );
     }
 
+//model calculation.
     model = Translate(pos)
       * RotateX(theta_x) * RotateY(theta_y) * RotateZ(theta_z)
       * Scale(scale_x, scale_y, scale_z);
@@ -381,13 +399,16 @@ building3::building3(GLuint vertexLoc, GLuint faceLoc,
 
 
 
-
+//building destructor.
 building3::~building3()
 {
   glDeleteVertexArrays(13, vao);
   glDeleteBuffers(13, buffer);
 }
-
+//building draw function:
+//includes specified colours for each face.
+//drawn with triangle fan.
+//function to draw the traffic light object.
 void building3::draw() const
 {
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
@@ -411,13 +432,19 @@ vec4(0.8,0.49,0.19,1)
 for(int i = 0; i < 13; i++) {
   glBindVertexArray(vao[i]);
   glUniform4fv(face_loc, 1, colors[i]);
-  // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[i]);
-  // glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 }
+
+
+// Functions for car movement:
+// each object is rotated and traslated the opposite direction the car is meant to rotate/translate.
+// creating an illusion of the car moving.
+//moveLeft: rotates the traffic light object -90 degrees and updates current direction accordingly.
+//moveRight: rotates the traffic light object 90 degrees and updates current direction accordingly.
+//moveForward: translates the traffic light object according to the current direction.
+//moveBackward: translates the traffic light object according to the current direction.
 void building3::moveLeft() {
-    // model = model * Translate(-0.5, 0, 0);
     model = RotateY(-90) * model;
         currentdirection = static_cast<direction>((currentdirection + 3) % 4);
 
@@ -425,7 +452,6 @@ void building3::moveLeft() {
 
 
 void building3::moveRight() {
-    // model = model * Translate(0.5, 0, 0);
     model = RotateY(90) * model;
         currentdirection = static_cast<direction>((currentdirection + 1) % 4);
 
@@ -463,7 +489,9 @@ void building3::moveBackward() {
       break;
   }}
 //=============================
-
+// building 4 constructor: 
+// takes in: vertex location(vertexloc), face location (faceloc), model location (modelloc)
+// scale factor for x,y,z coordinates and theta( rotation angle ) for x,y,z coordinates and starting position( pos ).
 building4::building4(GLuint vertexLoc, GLuint faceLoc,
 	     GLuint modelLoc, vec4 pos,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
@@ -471,6 +499,7 @@ building4::building4(GLuint vertexLoc, GLuint faceLoc,
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
     model_loc{modelLoc}, currentdirection{direction::north}
 {
+  // vertex definitions
     const vec4 point[22] = {
 //====================
 //    Bottom Cube
@@ -505,30 +534,9 @@ building4::building4(GLuint vertexLoc, GLuint faceLoc,
   vec4(0.25, 1.5, 0.5, 1) // 21
 };
     
-    
-const vec4 colours[16] = {
-  // Bottom Cube
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  // Middle Cube
-  vec4(0.4, 0.4, 0.4, 1.0), // Grey
-  vec4(0.4, 0.4, 0.4, 1.0), // Grey
-  vec4(0.4, 0.4, 0.4, 1.0), // Grey
-  vec4(0.4, 0.4, 0.4, 1.0), // Grey
-  vec4(0.4, 0.4, 0.4, 1.0), // Grey
-  // Top Cube
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0) // Wood
-};
+  
 
-
+//face definitions( numbers correspond to vertices, "0" = v0 )
 const int face[16][4] = {
 //=============
 // Bottom Cube
@@ -556,14 +564,15 @@ const int face[16][4] = {
   {16,17,21,20},
   {18,19,20,21}
 };
-
+// generating appropriate amount of vao's and buffers
+// for each face of the object
     glGenVertexArrays(16, vao);
     glGenBuffers(16, buffer);
-
+//
+// Loop for passing correct buffer data for each face.
+//
     for (int i = 0; i < 16; i++) {
       glBindVertexArray(vao[i]);
-
-      // initialize a buffer object
       glBindBuffer(GL_ARRAY_BUFFER, buffer[i]);
           
       vec4 A[4];
@@ -578,7 +587,7 @@ const int face[16][4] = {
       glVertexAttribPointer( vertexLoc, 4, GL_FLOAT, GL_FALSE, 0,
 	  		   BUFFER_OFFSET(0) );
     }
-
+//model calculation.
     model = Translate(pos)
       * RotateX(theta_x) * RotateY(theta_y) * RotateZ(theta_z)
       * Scale(scale_x, scale_y, scale_z);
@@ -589,7 +598,9 @@ building4::~building4()
   glDeleteVertexArrays(16, vao);
   glDeleteBuffers(16, buffer);
 }
-
+//building draw function:
+//includes specified colours for each face.
+//drawn with triangle fan.
 void building4::draw() const
 {
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
@@ -623,6 +634,13 @@ for(int i = 0; i < 16; i++) {
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 }
+// Functions for car movement:
+// each object is rotated and traslated the opposite direction the car is meant to rotate/translate.
+// creating an illusion of the car moving.
+//moveLeft: rotates the traffic light object -90 degrees and updates current direction accordingly.
+//moveRight: rotates the traffic light object 90 degrees and updates current direction accordingly.
+//moveForward: translates the traffic light object according to the current direction.
+//moveBackward: translates the traffic light object according to the current direction.
 void building4::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
     model =  RotateY(-90) * model;
@@ -666,6 +684,9 @@ void building4::moveBackward() {
       model = model * Translate(-0.5, 0.0, 0.0);
       break;
   }}
+// building 5 constructor: 
+// takes in: vertex location(vertexloc), face location (faceloc), model location (modelloc)
+// scale factor for x,y,z coordinates and theta( rotation angle ) for x,y,z coordinates and starting position( pos ).
   building5::building5(GLuint vertexLoc, GLuint faceLoc,
 	     GLuint modelLoc, vec4 pos,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
@@ -673,7 +694,8 @@ void building4::moveBackward() {
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
     model_loc{modelLoc}, currentdirection{direction::north}
 {
-    const vec4 point[10] = {
+//vertex definitions.
+const vec4 point[10] = {
 //bottom of pyrymid 
 vec4(-0.4/2,0,0.4/2,1), //v0
 vec4(0.4/2,0,0.4/2,1), //v1
@@ -681,7 +703,6 @@ vec4(0.4/2,0,-0.4/2,1),  //v2
 vec4(-0.4/2,0,-0.4/2,1), //v3
 //center
 vec4(0,1.0/2,0,1),  //v4
-
 //top pyramid
 vec4(0.4/2,1.5/2,0.4/2,1),  //v5
 vec4(0.4/2,1.5/2,0.4/2,1), //v6
@@ -690,34 +711,12 @@ vec4(-0.4/2,1.5/2,0.4/2,1), //v8
 vec4(0,0.75/2,0,1),  //v9
 
 };
-    
-    
-const vec4 colours[10] = {
-  // Bottom Cube
-  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
-  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
-  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
-  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
-  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
-  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
-  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
-  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
-  vec4(0.196, 0.8, 0.6, 1.0), // medium Aquamarine
-  vec4(0.196, 0.8, 0.6, 1.0) // medium Aquamarine
 
-};
-
-
+//face definitions( numbers correspond to vertices, "0" = v0 )
 const int face[10][4] = {
 //=============
 // Bottom pyrimid
 //=============
-// {1,2,3,4},
-// {1,2,5,5},
-// {2,3,5,5},
-// {3,4,5,5},
-// {5,1,4,4},
-
 {0,1,2,3}, // bottom
 {0,1,4,4}, //  side1
 {1,2,4,4}, // side2
@@ -730,39 +729,31 @@ const int face[10][4] = {
 {7,9,8,8}, //
 {8,9,5,5} //
 };
-
+// generating appropriate amount of vao's and buffers
+// for each face of the object
     glGenVertexArrays(10, vao);
     glGenBuffers(10, buffer);
-
+//
+// Loop for passing correct buffer data for each face.
+//
     for (int i = 0; i < 10; i++) {
       glBindVertexArray(vao[i]);
-
       // initialize a buffer object
       glBindBuffer(GL_ARRAY_BUFFER, buffer[i]);
-          
-          
           
           vec4 A[4];
         // No need for size variable since we always use 4 vertices
         for (int j = 0; j < 4; j++) {
             A[j] = point[face[i][j]];
          }
-      // vec4 A[4];
-      // int size = 0;
-      // for (int j = 0; j < 4; j++) {
-      //   if (face[i][j] >= 0) {
-	    //     A[size++] = point[face[i][j]];
-      //   }
-      
-     
-     
+
       glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(vec4), A, GL_STATIC_DRAW);
 
       glEnableVertexAttribArray( vertexLoc );
       glVertexAttribPointer( vertexLoc, 4, GL_FLOAT, GL_FALSE, 0,
 	  		   BUFFER_OFFSET(0) );
     }
-
+//model calculation.
     model = Translate(pos)
       * RotateX(theta_x) * RotateY(theta_y) * RotateZ(theta_z)
       * Scale(scale_x, scale_y, scale_z);
@@ -770,13 +761,15 @@ const int face[10][4] = {
 
 
 
-
+//building destructor.
 building5::~building5()
 {
   glDeleteVertexArrays(10, vao);
   glDeleteBuffers(10, buffer);
 }
-
+//building draw function:
+//includes specified colours for each face.
+//drawn with triangle fan.
 void building5::draw() const
 {
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
@@ -795,23 +788,25 @@ const vec4 colours[10] = {
   vec4(0.196, 0.8, 0.6, 1.0) // medium Aquamarine
 };
 
-
 for(int i = 0; i < 10; i++) {
   glBindVertexArray(vao[i]);
   glUniform4fv(face_loc, 1, colours[i]);
-  // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[i]);
-  // glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 }
+// Functions for car movement:
+// each object is rotated and traslated the opposite direction the car is meant to rotate/translate.
+// creating an illusion of the car moving.
+//moveLeft: rotates the traffic light object -90 degrees and updates current direction accordingly.
+//moveRight: rotates the traffic light object 90 degrees and updates current direction accordingly.
+//moveForward: translates the traffic light object according to the current direction.
+//moveBackward: translates the traffic light object according to the current direction.
 void building5::moveLeft() {
-    // model = model * Translate(-0.5, 0, 0);
     model =  RotateY(-90) * model;
     currentdirection = static_cast<direction>((currentdirection + 3) % 4);
     }
 
 void building5::moveRight() {
-    // model = model * Translate(0.5, 0, 0);
     model =  RotateY(90) * model;
     currentdirection = static_cast<direction>((currentdirection + 1) % 4);
     }
