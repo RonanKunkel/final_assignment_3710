@@ -24,7 +24,7 @@ class Wheels : public Object {
     void moveBackward();
     //iniatlizing model 
     mat4 model;
-    ////initializing vertex location, face location and model location variables
+    //initializing vertex location, face location and model location variables
     GLuint vertex_loc, face_loc, model_loc;
     //initalizing the amount of  vao and buffer 
     GLuint vao[39], buffer[39];
