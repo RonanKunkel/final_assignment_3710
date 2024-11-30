@@ -158,6 +158,7 @@ void display(void)
   for (int i = 0; i < 8; ++i) buildings1[i]->draw();
   for (int i = 0; i < 5; ++i) buildings2[i]->draw();
   for (int i = 0; i < 5; ++i) buildings3[i]->draw();
+  for (int i = 0; i < 4; ++i) buildings4[i]->draw();
   for (int i = 0; i < 5; ++i) buildings5[i]->draw();
   for (int i = 0; i < 9; ++i) pavementsX[i]->draw();
   for (int i = 0; i < 9; ++i) pavementsZ[i]->draw();
