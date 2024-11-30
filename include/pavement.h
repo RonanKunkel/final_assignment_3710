@@ -4,6 +4,9 @@
 #ifndef PAVEMENT_H
 #define PAVEMENT_H
 
+//pavementX constructor 
+//takes in vertex location. face location, model location 
+//scale factor for x,y,z coordinates 
 class PavementX : public Object {
  public:
     PavementX(GLuint vertexloc, GLuint faceloc, GLuint modeloc,
