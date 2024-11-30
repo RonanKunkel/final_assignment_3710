@@ -106,10 +106,10 @@ for(int i = 0; i < 10; i++) {
 // Functions for car movement:
 // each object is rotated and traslated the opposite direction the car is meant to rotate/translate.
 // creating an illusion of the car moving.
-//moveLeft: rotates the traffic light object -90 degrees and updates current direction accordingly.
-//moveRight: rotates the traffic light object 90 degrees and updates current direction accordingly.
-//moveForward: translates the traffic light object according to the current direction.
-//moveBackward: translates the traffic light object according to the current direction.
+//moveLeft: rotates the building object -90 degrees and updates current direction accordingly.
+//moveRight: rotates the building object 90 degrees and updates current direction accordingly.
+//moveForward: translates the building object according to the current direction.
+//moveBackward: translates the building object according to the current direction.
 void building1::moveLeft() {
     model = RotateY(-90) * model;
         currentdirection = static_cast<direction>((currentdirection + 3) % 4);
@@ -256,10 +256,10 @@ void building2::draw() const
 // Functions for car movement:
 // each object is rotated and traslated the opposite direction the car is meant to rotate/translate.
 // creating an illusion of the car moving.
-//moveLeft: rotates the traffic light object -90 degrees and updates current direction accordingly.
-//moveRight: rotates the traffic light object 90 degrees and updates current direction accordingly.
-//moveForward: translates the traffic light object according to the current direction.
-//moveBackward: translates the traffic light object according to the current direction.
+//moveLeft: rotates the building object -90 degrees and updates current direction accordingly.
+//moveRight: rotates the building object 90 degrees and updates current direction accordingly.
+//moveForward: translates the building object according to the current direction.
+//moveBackward: translates the building object according to the current direction.
 void building2::moveLeft() {
     model = RotateY(-90) * model;
         currentdirection = static_cast<direction>((currentdirection + 3) % 4);
@@ -408,7 +408,7 @@ building3::~building3()
 //building draw function:
 //includes specified colours for each face.
 //drawn with triangle fan.
-//function to draw the traffic light object.
+//function to draw the building object.
 void building3::draw() const
 {
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
@@ -440,10 +440,10 @@ for(int i = 0; i < 13; i++) {
 // Functions for car movement:
 // each object is rotated and traslated the opposite direction the car is meant to rotate/translate.
 // creating an illusion of the car moving.
-//moveLeft: rotates the traffic light object -90 degrees and updates current direction accordingly.
-//moveRight: rotates the traffic light object 90 degrees and updates current direction accordingly.
-//moveForward: translates the traffic light object according to the current direction.
-//moveBackward: translates the traffic light object according to the current direction.
+//moveLeft: rotates the building object -90 degrees and updates current direction accordingly.
+//moveRight: rotates the building object 90 degrees and updates current direction accordingly.
+//moveForward: translates the building object according to the current direction.
+//moveBackward: translates the building object according to the current direction.
 void building3::moveLeft() {
     model = RotateY(-90) * model;
         currentdirection = static_cast<direction>((currentdirection + 3) % 4);
@@ -607,24 +607,24 @@ void building4::draw() const
   
 const vec4 colours[16] = {
   // Bottom Cube
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
+  vec4(0.372549, 0.623529, 0.623529, 1.0), // CadetBlue
+  vec4(0.372549, 0.623529, 0.623529, 1.0), // CadetBlue
+  vec4(0.372549, 0.623529, 0.623529, 1.0), // CadetBlue
+  vec4(0.372549, 0.623529, 0.623529, 1.0), // CadetBlue
+  vec4(0.372549, 0.623529, 0.623529, 1.0), // CadetBlue
+  vec4(0.372549, 0.623529, 0.623529, 1.0), // CadetBlue
   // Middle Cube
-  vec4(0.4, 0.4, 0.4, 1.0), // Grey
-  vec4(0.4, 0.4, 0.4, 1.0), // Grey
-  vec4(0.4, 0.4, 0.4, 1.0), // Grey
-  vec4(0.4, 0.4, 0.4, 1.0), // Grey
-  vec4(0.4, 0.4, 0.4, 1.0), // Grey
+  vec4(0.4, 0.8, 0.4, 1.0), // Grey
+  vec4(0.4, 0.8, 0.4, 1.0), // Grey
+  vec4(0.4, 0.8, 0.4, 1.0), // Grey
+  vec4(0.4, 0.8, 0.4, 1.0), // Grey
+  vec4(0.4, 0.8, 0.4, 1.0), // Grey
   // Top Cube
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0), // Wood
-  vec4(0.58, 0.29, 0.18, 1.0) // Wood
+  vec4(0.556863, 0.137255, 0.137255, 1.0), // FireBrick
+  vec4(0.556863, 0.137255, 0.137255, 1.0), // FireBrick
+  vec4(0.556863, 0.137255, 0.137255, 1.0), // FireBrick
+  vec4(0.556863, 0.137255, 0.137255, 1.0), // FireBrick
+  vec4(0.556863, 0.137255, 0.137255, 1.0) // FireBrick
 };
 
 
@@ -637,10 +637,10 @@ for(int i = 0; i < 16; i++) {
 // Functions for car movement:
 // each object is rotated and traslated the opposite direction the car is meant to rotate/translate.
 // creating an illusion of the car moving.
-//moveLeft: rotates the traffic light object -90 degrees and updates current direction accordingly.
-//moveRight: rotates the traffic light object 90 degrees and updates current direction accordingly.
-//moveForward: translates the traffic light object according to the current direction.
-//moveBackward: translates the traffic light object according to the current direction.
+//moveLeft: rotates the building object -90 degrees and updates current direction accordingly.
+//moveRight: rotates the building object 90 degrees and updates current direction accordingly.
+//moveForward: translates the building object according to the current direction.
+//moveBackward: translates the building object according to the current direction.
 void building4::moveLeft() {
     // model = model * Translate(-0.5, 0, 0);
     model =  RotateY(-90) * model;
@@ -797,10 +797,10 @@ for(int i = 0; i < 10; i++) {
 // Functions for car movement:
 // each object is rotated and traslated the opposite direction the car is meant to rotate/translate.
 // creating an illusion of the car moving.
-//moveLeft: rotates the traffic light object -90 degrees and updates current direction accordingly.
-//moveRight: rotates the traffic light object 90 degrees and updates current direction accordingly.
-//moveForward: translates the traffic light object according to the current direction.
-//moveBackward: translates the traffic light object according to the current direction.
+//moveLeft: rotates the building object -90 degrees and updates current direction accordingly.
+//moveRight: rotates the building object 90 degrees and updates current direction accordingly.
+//moveForward: translates the building object according to the current direction.
+//moveBackward: translates the building object according to the current direction.
 void building5::moveLeft() {
     model =  RotateY(-90) * model;
     currentdirection = static_cast<direction>((currentdirection + 3) % 4);
