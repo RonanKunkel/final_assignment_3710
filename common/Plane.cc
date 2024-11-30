@@ -1,5 +1,6 @@
 #include "Plane.h"
 
+// Plane constructor that sets direction to north and takes a current position during creation
 Plane::Plane(GLuint vertexLoc, GLuint faceLoc,
 	     GLuint modelLoc, vec4 pos,
 	     GLfloat theta_x, GLfloat theta_y, GLfloat theta_z,
@@ -7,6 +8,7 @@ Plane::Plane(GLuint vertexLoc, GLuint faceLoc,
   : vertex_loc{vertexLoc}, face_loc{faceLoc},
     model_loc{modelLoc}, currentdirection{direction::north}, currentPosition{pos}
 {
+    // vertice points
     const vec4 point[4] = {
       vec4(7.25, 0, 7.25, 1), 
       vec4(7.25, 0, -7.25, 1),
@@ -14,12 +16,14 @@ Plane::Plane(GLuint vertexLoc, GLuint faceLoc,
       vec4(-7.25, 0, 7.25, 1)
     };
 
+    //single face
     const int face[1][4] = {
       {0,1,2,3}
     };
     glGenVertexArrays(1, vao);
     glGenBuffers(1, buffer);
 
+    // setting the face to the vertices
     for (int i = 0; i < 1; i++) {
       glBindVertexArray(vao[i]);
 
@@ -51,6 +55,7 @@ Plane::~Plane()
   glDeleteBuffers(1, buffer);
 }
 
+// function to draw the plane
 void Plane::draw() const
 {
   glUniformMatrix4fv(model_loc, 1, GL_TRUE, model);
@@ -64,18 +69,20 @@ void Plane::draw() const
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 
+// moving the plane -90 when left arrow is pressed
 void Plane::moveLeft() {
-    // model = model * Translate(-0.5, 0, 0);
     model =  RotateY(-90) * model;
     currentdirection = static_cast<direction>((currentdirection + 3) % 4);
     }
 
+// moving the plane 90 when right arrow is pressed
 void Plane::moveRight() {
-    // model = model * Translate(0.5, 0, 0);
     model =  RotateY(90) * model;
     currentdirection = static_cast<direction>((currentdirection + 1) % 4);
     }
 
+// function for forward movement of plane depending on
+// current direction of the plane itself
 void Plane::moveForward() {
   switch(currentdirection){
     case north: 
@@ -96,6 +103,8 @@ void Plane::moveForward() {
       break;
   }}
 
+// function for backward movement of plane depending on
+// current direction of the plane itself
 void Plane::moveBackward() {
   switch(currentdirection){
     case north: 
@@ -116,6 +125,7 @@ void Plane::moveBackward() {
       break;
   }}
 
+// returns currentDirection of plane for movement restrictions
 int Plane::getDirection() {
   return currentdirection;
 }

@@ -14,7 +14,6 @@ public:
   int ozfar);
  ~Camera(); 
  // functions for creating the two different types of cameras
- static Camera* createOrthoCamera(GLuint viewLoc, GLuint projLoc);
  static Camera* createPerspectiveCamera(GLuint viewLoc, GLuint projLoc);
  // eye fucntions for movement of eye
  void moveEye(GLfloat dx, GLfloat dy, GLfloat dz);
