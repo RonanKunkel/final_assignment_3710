@@ -1,5 +1,8 @@
-@authors Ronan Kunkel | Desmond Clarke | Maksym Makarov | Albert Michota
 @date 2024-10
+@author Ronan Kunkel
+@author Desmond Clarke
+@author Maksym Makarov
+@author Albert Michota
 This is a group project for our computer graphics class which required us to learn openGL and have the given features:
 - Create a flat plane that is organized in a 10x10 grid which spans across the X/Z coords
 - Create traversable roads with boundaries
