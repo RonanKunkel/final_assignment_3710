@@ -1,9 +1,9 @@
-@date 2024-10
-@author Ronan Kunkel
-@author Desmond Clarke
-@author Maksym Makarov
-@author Albert Michota
-This is a group project for our computer graphics class which required us to learn openGL and have the given features:
+- @date 2024-10
+- @author Ronan Kunkel
+- @author Desmond Clarke
+- @author Maksym Makarov
+- @author Albert Michota
+- This is a group project for our computer graphics class which required us to learn openGL and have the given features:
 - Create a flat plane that is organized in a 10x10 grid which spans across the X/Z coords
 - Create traversable roads with boundaries
 - Create 5 different building types that are more than a single prism and at least 20 buildings across the plane 
