@@ -241,12 +241,16 @@ void cameraAndMovement(int key, int x, int y) {
     case GLUT_KEY_UP:
     // Moves all objects forward or backwards in world depending on the position and button pressed
       if (plane->getDirection() == 0 && plane->currentPosition.z >= 7) {
+        break;
       } else if (plane->getDirection() == 2 && plane->currentPosition.z <= -7) {
+        break;
       } else if (plane->getDirection() == 1 && plane->currentPosition.x >= 7){
+        break;
       } else if (plane->getDirection() == 3 && plane->currentPosition.x <= -7){
+        break;
       } else {
       plane->moveForward();
-  for (int i = 0; i < 5; ++i) light[i]->moveForward();
+      for (int i = 0; i < 5; ++i) light[i]->moveForward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveForward();
       for (int i = 0; i < 5; ++i) buildings2[i]->moveForward();
       for (int i = 0; i < 5; ++i) buildings3[i]->moveForward();
@@ -260,12 +264,16 @@ void cameraAndMovement(int key, int x, int y) {
       }
     case GLUT_KEY_DOWN:
       if (plane->getDirection() == 0 && plane->currentPosition.z <= -7) {
+        break;
       } else if (plane->getDirection() == 2 && plane->currentPosition.z >= 7) {
+        break;
       } else if (plane->getDirection() == 1 && plane->currentPosition.x <= -7){
+        break;
       } else if (plane->getDirection() == 3 && plane->currentPosition.x >= 7){
+        break;
       } else {
       plane->moveBackward();
-  for (int i = 0; i < 5; ++i) light[i]->moveBackward();
+      for (int i = 0; i < 5; ++i) light[i]->moveBackward();
       for (int i = 0; i < 8; ++i) buildings1[i]->moveBackward();
       for (int i = 0; i < 5; ++i) buildings2[i]->moveBackward();
       for (int i = 0; i < 5; ++i) buildings3[i]->moveBackward();
